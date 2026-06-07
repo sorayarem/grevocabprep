@@ -1,7 +1,8 @@
-const CACHE_NAME = "gre-vocab-pwa-v2";
+const CACHE_NAME = "gre-vocab-pwa-v3";
 const APP_SHELL = [
   "./",
   "./index.html",
+  "./grewords.csv",
   "./manifest.webmanifest",
   "./icons/icon.svg",
   "./icons/icon-192.png",

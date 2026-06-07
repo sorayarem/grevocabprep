@@ -148,23 +148,6 @@
       line-height: 1.55;
     }
 
-    .file-row {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 12px;
-    }
-
-    input[type="file"] {
-      width: min(100%, 420px);
-      padding: 12px;
-      border: 1px dashed var(--border);
-      border-radius: 16px;
-      background: var(--paper-2);
-      color: var(--text);
-      font: inherit;
-    }
-
     .session-row {
       display: flex;
       flex-wrap: wrap;
@@ -1123,26 +1106,23 @@
       <div class="stats" aria-live="polite">
         <div class="pill" id="scorePill">Score 0</div>
         <div class="pill" id="roundPill">Round 0</div>
-        <div class="pill" id="countPill">No CSV loaded</div>
+        <div class="pill" id="countPill">Loading vocab</div>
         <div class="pill" id="buildPill" title="File version">v8.2</div>
       </div>
     </header>
 
     <main>
       <section class="setup" id="setup">
-        <h2>Load your vocabulary CSV</h2>
-        <p>Select your vocabulary CSV. The file should have two columns named <strong>word</strong> and <strong>definition</strong>.</p>
-        <div class="file-row">
-          <input id="csvFile" type="file" accept=".csv,text/csv" />
-        </div>
-        <div class="saved-status" id="savedStatus">Loaded vocab is saved on this device after you choose a CSV.</div>
+        <h2>Choose your session length</h2>
+        <p>The built-in GRE vocabulary list loads automatically.</p>
+        <div class="saved-status" id="vocabStatus">Loading vocabulary...</div>
         <div class="session-row">
           <div class="field">
             <label for="mcqCount">Session questions</label>
             <input id="mcqCount" type="number" min="1" step="1" value="25" inputmode="numeric" />
           </div>
           <button class="primary" id="startBtn" disabled>Start quiz</button>
-          <div class="session-note" id="sessionNote">Load a CSV first, then choose the session length. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.</div>
+          <div class="session-note" id="sessionNote">Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.</div>
         </div>
         <div class="error" id="errorBox"></div>
       </section>
@@ -1201,8 +1181,7 @@
 
   <script>
     const NUM_OPTIONS = 5;
-    const VOCAB_STORAGE_KEY = "gre-vocab-quiz:csv:v1";
-    const VOCAB_NAME_KEY = "gre-vocab-quiz:csv-name:v1";
+    const VOCAB_URL = "grewords.csv";
 
     let entries = [];
     let score = 0;
@@ -1225,7 +1204,6 @@
 
     const setup = document.getElementById("setup");
     const quiz = document.getElementById("quiz");
-    const csvFile = document.getElementById("csvFile");
     const mcqCount = document.getElementById("mcqCount");
     const freeCount = null;
     const sessionNote = document.getElementById("sessionNote");
@@ -1256,34 +1234,7 @@
     const seeAnswerBtn = document.getElementById("seeAnswerBtn");
     const freeAnswer = document.getElementById("freeAnswer");
     const hintText = document.getElementById("hintText");
-    const savedStatus = document.getElementById("savedStatus");
-
-    csvFile.addEventListener("change", async () => {
-      clearError();
-      startBtn.disabled = true;
-      const file = csvFile.files[0];
-      if (!file) return;
-
-      try {
-        const text = await file.text();
-        entries = loadEntries(text);
-        if (entries.length < NUM_OPTIONS) {
-          throw new Error(`Need at least ${NUM_OPTIONS} usable rows with word and definition.`);
-        }
-        const saved = saveVocabulary(text, file.name || "vocab.csv");
-        countPill.textContent = `${entries.length.toLocaleString()} words loaded`;
-        if (saved) {
-          savedStatus.textContent = `Saved ${entries.length.toLocaleString()} words on this device.`;
-        }
-        mcqCount.max = String(entries.length);
-        validateSessionLength();
-      } catch (err) {
-        showError(err.message || String(err));
-        countPill.textContent = "No CSV loaded";
-        entries = [];
-        validateSessionLength();
-      }
-    });
+    const vocabStatus = document.getElementById("vocabStatus");
 
     mcqCount.addEventListener("input", validateSessionLength);
     if (freeCount) freeCount.addEventListener("input", validateSessionLength);
@@ -1316,7 +1267,7 @@
     });
     reviewMissedBtn.addEventListener("click", startMissedReview);
 
-    loadSavedVocabulary();
+    loadBuiltInVocabulary();
     registerServiceWorker();
 
     window.addEventListener("keydown", (event) => {
@@ -1926,7 +1877,7 @@
 
       if (!entries.length) {
         startBtn.disabled = true;
-        sessionNote.textContent = "Load a CSV first, then choose the session length. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.";
+        sessionNote.textContent = "Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.";
         return false;
       }
 
@@ -1938,13 +1889,13 @@
 
       if (sessionValue > entries.length) {
         startBtn.disabled = true;
-        sessionNote.textContent = `Session length cannot exceed ${entries.length.toLocaleString()} unique words in the CSV.`;
+        sessionNote.textContent = `Session length cannot exceed ${entries.length.toLocaleString()} unique words.`;
         return false;
       }
 
       if (entries.length < NUM_OPTIONS) {
         startBtn.disabled = true;
-        sessionNote.textContent = `Multiple choice needs at least ${NUM_OPTIONS} usable words in the CSV.`;
+        sessionNote.textContent = `Multiple choice needs at least ${NUM_OPTIONS} usable words.`;
         return false;
       }
 
@@ -1953,32 +1904,30 @@
       return true;
     }
 
-    function loadSavedVocabulary() {
+    async function loadBuiltInVocabulary() {
+      clearError();
+      startBtn.disabled = true;
+
       try {
-        const savedCSV = localStorage.getItem(VOCAB_STORAGE_KEY);
-        if (!savedCSV) return;
-
-        entries = loadEntries(savedCSV);
-        if (entries.length < NUM_OPTIONS) return;
-
-        const savedName = localStorage.getItem(VOCAB_NAME_KEY) || "saved CSV";
+        const response = await fetch(VOCAB_URL);
+        if (!response.ok) {
+          throw new Error(`Could not load ${VOCAB_URL}.`);
+        }
+        const csvText = await response.text();
+        entries = loadEntries(csvText);
+        if (entries.length < NUM_OPTIONS) {
+          throw new Error(`Need at least ${NUM_OPTIONS} usable rows with word and definition.`);
+        }
         countPill.textContent = `${entries.length.toLocaleString()} words loaded`;
-        savedStatus.textContent = `Using ${savedName} saved on this device. Choose a new CSV to replace it.`;
+        vocabStatus.textContent = `Loaded ${entries.length.toLocaleString()} words from grewords.csv.`;
         mcqCount.max = String(entries.length);
         validateSessionLength();
       } catch (err) {
-        savedStatus.textContent = "Saved vocab could not be loaded. Choose your CSV again.";
-      }
-    }
-
-    function saveVocabulary(csvText, fileName) {
-      try {
-        localStorage.setItem(VOCAB_STORAGE_KEY, csvText);
-        localStorage.setItem(VOCAB_NAME_KEY, fileName);
-        return true;
-      } catch (err) {
-        savedStatus.textContent = "Vocab loaded, but this browser could not save it for next time.";
-        return false;
+        entries = [];
+        countPill.textContent = "Vocab not loaded";
+        vocabStatus.textContent = "Could not load the built-in vocabulary file.";
+        showError(err.message || String(err));
+        validateSessionLength();
       }
     }
 

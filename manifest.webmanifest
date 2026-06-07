@@ -1,7 +1,7 @@
 {
   "name": "GRE Vocab Quiz",
   "short_name": "GRE Vocab",
-  "description": "A mobile-friendly GRE vocabulary quiz with local CSV storage.",
+  "description": "A mobile-friendly GRE vocabulary quiz with a built-in word list.",
   "start_url": "./index.html",
   "scope": "./",
   "display": "standalone",

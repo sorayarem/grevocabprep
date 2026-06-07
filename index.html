@@ -678,7 +678,7 @@
       flex-shrink: 0;
     }
 
-    /* After answering: hide stale inputs, keep revealed FRQ answer visible */
+    /* After answering: hide stale inputs and show the answer review state. */
     .quiz.answered:not(.free-question) .free-response {
       display: none !important;
     }
@@ -1370,7 +1370,7 @@
             <input id="mcqCount" type="number" min="1" step="1" value="25" inputmode="numeric" />
           </div>
           <button class="primary" id="startBtn" disabled>Start quiz</button>
-          <div class="session-note" id="sessionNote">Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.</div>
+          <div class="session-note" id="sessionNote">Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct.</div>
         </div>
         <div class="error" id="errorBox"></div>
         <div class="section-grid" id="sectionGrid" aria-live="polite"></div>
@@ -1904,7 +1904,7 @@
         showSummary();
         return;
       }
-      if (reviewOnly && wrongQueue.length === 0 && frqRetryQueue.length === 0) {
+      if (reviewOnly && wrongQueue.length === 0) {
         showSummary();
         return;
       }
@@ -1947,43 +1947,15 @@
     function pickQuestion() {
       let correctEntry;
       let useFreeResponse = false;
-      const freeResponseEnabled = !isMobileQuizDevice();
 
-      // A revealed/wrong FRQ must be repeated as FRQ until correct.
-      if (freeResponseEnabled && frqRetryQueue.length) {
-        correctEntry = pickQueuedEntry(frqRetryQueue);
-        useFreeResponse = true;
-        freeAsked += 1;
-      } else if (wrongQueue.length) {
+      if (wrongQueue.length) {
         correctEntry = pickQueuedEntry(wrongQueue);
-      } else if (freeResponseEnabled && shouldUseFreeResponse()) {
-        const dueItems = getDueFreeResponseItems();
-        correctEntry = pickQueuedItem(dueItems).entry;
-        useFreeResponse = true;
-        freeAsked += 1;
       } else if (newMcqCount < sessionLimit) {
         correctEntry = pickNextNewMcqEntry();
-        if (!correctEntry) {
-          const dueItems = getDueFreeResponseItems();
-          if (freeResponseEnabled && dueItems.length) {
-            correctEntry = pickQueuedItem(dueItems).entry;
-            useFreeResponse = true;
-            freeAsked += 1;
-          } else {
-            return null;
-          }
-        } else {
-          newMcqCount += 1;
-        }
+        if (!correctEntry) return null;
+        newMcqCount += 1;
       } else {
-        const dueItems = getDueFreeResponseItems();
-        if (freeResponseEnabled && dueItems.length) {
-          correctEntry = pickQueuedItem(dueItems).entry;
-          useFreeResponse = true;
-          freeAsked += 1;
-        } else {
-          return null;
-        }
+        return null;
       }
 
       const selected = useFreeResponse ? [correctEntry] : pickSamePartOfSpeechOptions(correctEntry);
@@ -1994,8 +1966,7 @@
 
     function shouldEndRegularSession() {
       if (!sessionLimit || newMcqCount < sessionLimit) return false;
-      if (isMobileQuizDevice()) return wrongQueue.length === 0;
-      return wrongQueue.length === 0 && frqRetryQueue.length === 0 && delayedFreeQueue.length === 0;
+      return wrongQueue.length === 0;
     }
 
     function shouldUseFreeResponse() {
@@ -2243,7 +2214,6 @@
         feedback.textContent = "Correct";
         feedback.className = "feedback good";
         markCorrectIfRepeated(correct);
-        if (!isMobileQuizDevice()) queueDelayedFreeResponse(correct);
       } else {
         feedback.textContent = `Wrong - the answer was ${correct.word}`;
         feedback.className = "feedback bad";
@@ -2403,7 +2373,7 @@
         return;
       }
       if (sessionLimit && !reviewOnly) {
-        const pending = wrongQueue.length + frqRetryQueue.length + delayedFreeQueue.length;
+        const pending = wrongQueue.length;
         const mcqProgress = `MCQ ${Math.min(newMcqCount, sessionLimit)}/${sessionLimit}`;
         roundPill.textContent = pending
           ? `Round ${round} · ${mcqProgress} · ${pending} follow-up${pending === 1 ? "" : "s"}`
@@ -2421,7 +2391,7 @@
 
       if (!entries.length) {
         startBtn.disabled = true;
-        sessionNote.textContent = "Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.";
+        sessionNote.textContent = "Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct.";
         return false;
       }
 
@@ -2450,7 +2420,7 @@
       }
 
       startBtn.disabled = false;
-      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.${isMobileQuizDevice() ? " Free-response questions are skipped on mobile." : ""}`;
+      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.`;
       return true;
     }
 

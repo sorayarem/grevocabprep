@@ -1,4 +1,4 @@
-const CACHE_NAME = "gre-vocab-pwa-v4";
+const CACHE_NAME = "gre-vocab-pwa-v5";
 const APP_SHELL = [
   "./",
   "./index.html",

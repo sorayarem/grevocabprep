@@ -226,6 +226,8 @@
       gap: 10px;
       max-height: 320px;
       overflow: auto;
+      margin-top: 8px;
+      padding-top: 8px;
       padding-right: 4px;
     }
 
@@ -1321,7 +1323,7 @@
           </div>
           <div class="goal-stat">
             <strong id="overallUnknown">0</strong>
-            <span>need work</span>
+            <span>needs work</span>
           </div>
           <div class="goal-stat">
             <strong id="overallPercent">0%</strong>
@@ -1377,7 +1379,7 @@
         <div class="progress-actions" id="wordProgressActions">
           <span class="progress-actions-label" id="currentWordStatus">Mark this word</span>
           <button class="mark-btn known" id="markKnownBtn" type="button">Know it</button>
-          <button class="mark-btn unknown" id="markUnknownBtn" type="button">Need work</button>
+          <button class="mark-btn unknown" id="markUnknownBtn" type="button">Needs work</button>
         </div>
 
         <section class="explain" id="explain">
@@ -1726,7 +1728,7 @@
             <span>${escapeHTML(section.title)}</span>
             <span>${stats.percent}%</span>
           </div>
-          <div class="section-card-meta">${section.start}-${section.end} &middot; ${stats.known}/${stats.total} known &middot; ${stats.unknown} need work</div>
+          <div class="section-card-meta">${section.start}-${section.end} &middot; ${stats.known}/${stats.total} known &middot; ${stats.unknown} needs work</div>
           <div class="progress-track"><div class="progress-fill" style="width:${stats.percent}%"></div></div>
         `;
         button.addEventListener("click", () => selectSection(section.index));
@@ -1769,7 +1771,7 @@
         actions.className = "mark-actions";
         actions.append(
           makeStatusButton(entry, "known", "Know it", status),
-          makeStatusButton(entry, "unknown", "Need work", status)
+          makeStatusButton(entry, "unknown", "Needs work", status)
         );
 
         row.append(word, def, actions);
@@ -1813,12 +1815,12 @@
       currentWordStatus.textContent = status === "known"
         ? `${correct.word} is marked known`
         : status === "unknown"
-          ? `${correct.word} is marked need work`
+          ? `${correct.word} is marked needs work`
           : `Mark ${correct.word}`;
       markKnownBtn.classList.toggle("active", status === "known");
       markUnknownBtn.classList.toggle("active", status === "unknown");
       markKnownBtn.textContent = status === "known" ? "Marked known" : "Know it";
-      markUnknownBtn.textContent = status === "unknown" ? "Marked need work" : "Need work";
+      markUnknownBtn.textContent = status === "unknown" ? "Marked needs work" : "Needs work";
     }
 
     function getSelectedScopeIndex() {
@@ -1917,15 +1919,16 @@
     function pickQuestion() {
       let correctEntry;
       let useFreeResponse = false;
+      const freeResponseEnabled = !isMobileQuizDevice();
 
       // A revealed/wrong FRQ must be repeated as FRQ until correct.
-      if (frqRetryQueue.length) {
+      if (freeResponseEnabled && frqRetryQueue.length) {
         correctEntry = pickQueuedEntry(frqRetryQueue);
         useFreeResponse = true;
         freeAsked += 1;
       } else if (wrongQueue.length) {
         correctEntry = pickQueuedEntry(wrongQueue);
-      } else if (shouldUseFreeResponse()) {
+      } else if (freeResponseEnabled && shouldUseFreeResponse()) {
         const dueItems = getDueFreeResponseItems();
         correctEntry = pickQueuedItem(dueItems).entry;
         useFreeResponse = true;
@@ -1934,7 +1937,7 @@
         correctEntry = pickNextNewMcqEntry();
         if (!correctEntry) {
           const dueItems = getDueFreeResponseItems();
-          if (dueItems.length) {
+          if (freeResponseEnabled && dueItems.length) {
             correctEntry = pickQueuedItem(dueItems).entry;
             useFreeResponse = true;
             freeAsked += 1;
@@ -1946,7 +1949,7 @@
         }
       } else {
         const dueItems = getDueFreeResponseItems();
-        if (dueItems.length) {
+        if (freeResponseEnabled && dueItems.length) {
           correctEntry = pickQueuedItem(dueItems).entry;
           useFreeResponse = true;
           freeAsked += 1;
@@ -1963,16 +1966,26 @@
 
     function shouldEndRegularSession() {
       if (!sessionLimit || newMcqCount < sessionLimit) return false;
+      if (isMobileQuizDevice()) return wrongQueue.length === 0;
       return wrongQueue.length === 0 && frqRetryQueue.length === 0 && delayedFreeQueue.length === 0;
     }
 
     function shouldUseFreeResponse() {
+      if (isMobileQuizDevice()) return false;
       const dueItems = getDueFreeResponseItems();
       if (!dueItems.length) return false;
 
       if (newMcqCount >= sessionLimit) return true;
 
       return round % 3 === 0 || dueItems.length >= 3;
+    }
+
+    function isMobileQuizDevice() {
+      const mobileUserAgent = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      return mobileUserAgent ||
+        window.innerWidth <= 680 ||
+        document.documentElement.clientWidth <= 680 ||
+        window.matchMedia("(pointer: coarse)").matches;
     }
 
     function pickQueuedEntry(queue) {
@@ -2202,7 +2215,7 @@
         feedback.textContent = "Correct";
         feedback.className = "feedback good";
         markCorrectIfRepeated(correct);
-        queueDelayedFreeResponse(correct);
+        if (!isMobileQuizDevice()) queueDelayedFreeResponse(correct);
       } else {
         feedback.textContent = `Wrong - the answer was ${correct.word}`;
         feedback.className = "feedback bad";
@@ -2405,7 +2418,7 @@
       }
 
       startBtn.disabled = false;
-      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.`;
+      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.${isMobileQuizDevice() ? " Free-response questions are skipped on mobile." : ""}`;
       return true;
     }
 

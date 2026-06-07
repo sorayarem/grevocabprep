@@ -148,6 +148,31 @@
       line-height: 1.55;
     }
 
+    .goal-summary {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .goal-stat {
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--paper-2);
+    }
+
+    .goal-stat strong {
+      display: block;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .goal-stat span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      font-weight: 700;
+    }
+
     .session-row {
       display: flex;
       flex-wrap: wrap;
@@ -177,11 +202,158 @@
       font-weight: 650;
     }
 
+    select {
+      width: min(100%, 260px);
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--paper-2);
+      color: var(--text);
+      font: inherit;
+      font-weight: 650;
+    }
+
     .session-note {
       color: var(--muted);
       font-size: 0.9rem;
       line-height: 1.35;
       max-width: 520px;
+    }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+      gap: 10px;
+      max-height: 320px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .section-card {
+      text-align: left;
+      padding: 13px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(255, 253, 248, 0.92);
+      color: var(--text);
+      box-shadow: 0 8px 18px rgba(55, 43, 29, 0.045);
+    }
+
+    .section-card.active {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(155, 92, 57, 0.14);
+    }
+
+    .section-card-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      font-weight: 850;
+      margin-bottom: 8px;
+    }
+
+    .section-card-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .progress-track {
+      height: 9px;
+      border-radius: 999px;
+      background: var(--soft);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: inherit;
+      background: var(--good);
+    }
+
+    .word-panel {
+      display: none;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(251, 247, 239, 0.72);
+    }
+
+    .word-panel.active { display: grid; }
+
+    .word-panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .word-panel-title {
+      font-weight: 850;
+      letter-spacing: -0.02em;
+    }
+
+    .word-list {
+      display: grid;
+      gap: 8px;
+      max-height: 300px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .word-row {
+      display: grid;
+      grid-template-columns: minmax(90px, 140px) minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 10px 12px;
+      border: 1px solid rgba(214, 204, 185, 0.8);
+      border-radius: 14px;
+      background: rgba(255, 253, 248, 0.82);
+    }
+
+    .word-row-word {
+      font-weight: 850;
+    }
+
+    .word-row-def {
+      color: var(--muted);
+      line-height: 1.35;
+      font-size: 0.92rem;
+    }
+
+    .mark-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .mark-btn {
+      padding: 8px 10px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: var(--paper-2);
+      color: var(--text);
+      font-weight: 800;
+      font-size: 0.82rem;
+      white-space: nowrap;
+    }
+
+    .mark-btn.known.active {
+      background: var(--good-bg);
+      color: var(--good);
+      border-color: rgba(46,112,72,0.55);
+    }
+
+    .mark-btn.unknown.active {
+      background: var(--bad-bg);
+      color: var(--bad);
+      border-color: rgba(161,61,61,0.5);
     }
 
     .saved-status {
@@ -349,6 +521,28 @@
     }
     .feedback.good { color: var(--good); }
     .feedback.bad { color: var(--bad); }
+
+    .progress-actions {
+      display: none;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+      padding: 12px 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: rgba(251, 247, 239, 0.86);
+    }
+
+    .quiz.answered .progress-actions {
+      display: flex;
+    }
+
+    .progress-actions-label {
+      color: var(--muted);
+      font-size: 0.86rem;
+      font-weight: 800;
+      margin-right: auto;
+    }
 
 
     .free-response {
@@ -749,6 +943,10 @@
       .footer-actions button { flex: 1; }
       .free-row { grid-template-columns: 1fr; }
       .missed-item { grid-template-columns: 1fr; gap: 6px; }
+      .goal-summary { grid-template-columns: 1fr; }
+      .word-row { grid-template-columns: 1fr; }
+      .mark-actions { justify-content: stretch; }
+      .mark-actions button { flex: 1; }
       body.quiz-mode .quiz.free-question .free-row { grid-template-columns: 1fr; }
       body.quiz-mode .quiz.free-question .footer { width: 100%; }
 
@@ -1113,10 +1311,30 @@
 
     <main>
       <section class="setup" id="setup">
-        <h2>Choose your session length</h2>
-        <p>The built-in GRE vocabulary list loads automatically.</p>
+        <h2>Study goals</h2>
+        <p>The built-in GRE vocabulary list is split into bite-size sections. Mark words as known or needing work, then quiz one section or the whole list.</p>
         <div class="saved-status" id="vocabStatus">Loading vocabulary...</div>
+        <div class="goal-summary" aria-live="polite">
+          <div class="goal-stat">
+            <strong id="overallKnown">0</strong>
+            <span>known words</span>
+          </div>
+          <div class="goal-stat">
+            <strong id="overallUnknown">0</strong>
+            <span>need work</span>
+          </div>
+          <div class="goal-stat">
+            <strong id="overallPercent">0%</strong>
+            <span>overall progress</span>
+          </div>
+        </div>
         <div class="session-row">
+          <div class="field">
+            <label for="quizScope">Quiz range</label>
+            <select id="quizScope" disabled>
+              <option value="all">All sections</option>
+            </select>
+          </div>
           <div class="field">
             <label for="mcqCount">Session questions</label>
             <input id="mcqCount" type="number" min="1" step="1" value="25" inputmode="numeric" />
@@ -1125,6 +1343,17 @@
           <div class="session-note" id="sessionNote">Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.</div>
         </div>
         <div class="error" id="errorBox"></div>
+        <div class="section-grid" id="sectionGrid" aria-live="polite"></div>
+        <section class="word-panel" id="wordPanel">
+          <div class="word-panel-head">
+            <div class="word-panel-title" id="wordPanelTitle"></div>
+            <div class="mark-actions">
+              <button class="ghost" id="quizSelectedBtn" type="button">Quiz section</button>
+              <button class="ghost" id="clearSectionBtn" type="button">Clear marks</button>
+            </div>
+          </div>
+          <div class="word-list" id="wordList"></div>
+        </section>
       </section>
 
       <section class="quiz" id="quiz" aria-live="polite">
@@ -1145,6 +1374,11 @@
           <div class="free-answer" id="freeAnswer"></div>
         </section>
         <div class="feedback" id="feedback"></div>
+        <div class="progress-actions" id="wordProgressActions">
+          <span class="progress-actions-label" id="currentWordStatus">Mark this word</span>
+          <button class="mark-btn known" id="markKnownBtn" type="button">Know it</button>
+          <button class="mark-btn unknown" id="markUnknownBtn" type="button">Need work</button>
+        </div>
 
         <section class="explain" id="explain">
           <div class="explain-header">Definitions for all choices</div>
@@ -1171,6 +1405,7 @@
         </div>
         <div class="missed-list" id="missedList"></div>
         <div class="summary-actions">
+          <button class="ghost" id="studyGoalsBtn" type="button">Study goals</button>
           <button class="ghost" id="backToQuizBtn" type="button">Back to quiz</button>
           <button class="ghost" id="restartBtn" type="button">Restart session</button>
           <button class="primary" id="reviewMissedBtn" type="button">Review missed words</button>
@@ -1182,8 +1417,14 @@
   <script>
     const NUM_OPTIONS = 5;
     const VOCAB_URL = "grewords.csv";
+    const SECTION_SIZE = 50;
+    const PROGRESS_STORAGE_KEY = "gre-vocab-quiz:progress:v2";
 
     let entries = [];
+    let quizEntries = [];
+    let sections = [];
+    let selectedSectionIndex = 0;
+    let progress = { known: {}, unknown: {} };
     let score = 0;
     let round = 0;
     let answered = false;
@@ -1216,6 +1457,7 @@
     const summaryRounds = document.getElementById("summaryRounds");
     const summaryMissed = document.getElementById("summaryMissed");
     const missedList = document.getElementById("missedList");
+    const studyGoalsBtn = document.getElementById("studyGoalsBtn");
     const backToQuizBtn = document.getElementById("backToQuizBtn");
     const restartBtn = document.getElementById("restartBtn");
     const reviewMissedBtn = document.getElementById("reviewMissedBtn");
@@ -1235,8 +1477,27 @@
     const freeAnswer = document.getElementById("freeAnswer");
     const hintText = document.getElementById("hintText");
     const vocabStatus = document.getElementById("vocabStatus");
+    const quizScope = document.getElementById("quizScope");
+    const sectionGrid = document.getElementById("sectionGrid");
+    const wordPanel = document.getElementById("wordPanel");
+    const wordPanelTitle = document.getElementById("wordPanelTitle");
+    const wordList = document.getElementById("wordList");
+    const quizSelectedBtn = document.getElementById("quizSelectedBtn");
+    const clearSectionBtn = document.getElementById("clearSectionBtn");
+    const overallKnown = document.getElementById("overallKnown");
+    const overallUnknown = document.getElementById("overallUnknown");
+    const overallPercent = document.getElementById("overallPercent");
+    const wordProgressActions = document.getElementById("wordProgressActions");
+    const currentWordStatus = document.getElementById("currentWordStatus");
+    const markKnownBtn = document.getElementById("markKnownBtn");
+    const markUnknownBtn = document.getElementById("markUnknownBtn");
 
     mcqCount.addEventListener("input", validateSessionLength);
+    quizScope.addEventListener("change", () => {
+      const index = getSelectedScopeIndex();
+      if (index !== null) selectSection(index);
+      validateSessionLength();
+    });
     if (freeCount) freeCount.addEventListener("input", validateSessionLength);
 
     startBtn.addEventListener("click", () => {
@@ -1260,12 +1521,20 @@
       document.body.classList.add("quiz-mode");
       setAnsweredUI(answered);
     });
+    studyGoalsBtn.addEventListener("click", showStudyGoals);
     restartBtn.addEventListener("click", () => {
       if (!entries.length) return;
       if (!validateSessionLength()) return;
       startSession();
     });
     reviewMissedBtn.addEventListener("click", startMissedReview);
+    quizSelectedBtn.addEventListener("click", () => {
+      quizScope.value = String(selectedSectionIndex);
+      if (validateSessionLength()) startSession();
+    });
+    clearSectionBtn.addEventListener("click", () => clearSectionMarks(selectedSectionIndex));
+    markKnownBtn.addEventListener("click", () => markCurrentWord("known"));
+    markUnknownBtn.addEventListener("click", () => markCurrentWord("unknown"));
 
     loadBuiltInVocabulary();
     registerServiceWorker();
@@ -1286,6 +1555,8 @@
     });
 
     function startSession() {
+      quizEntries = getQuizEntriesForScope();
+      if (!quizEntries.length) return;
       sessionLimit = Number(mcqCount.value);
       setup.style.display = "none";
       summary.classList.remove("active");
@@ -1308,7 +1579,7 @@
       delayedFreeQueue = [];
       frqRetryQueue = [];
       lastQuestionWordKey = "";
-      unusedNewMcqPool = shuffle([...entries]);
+      unusedNewMcqPool = shuffle([...quizEntries]);
       updateStats();
       nextQuestion();
     }
@@ -1348,6 +1619,218 @@
         out.push({ word, definition, pos: normalizePartOfSpeech(givenPos) || inferPartOfSpeech(word, definition) });
       }
       return out;
+    }
+
+    function buildSections() {
+      sections = [];
+      entries.forEach((entry, index) => {
+        const sectionIndex = Math.floor(index / SECTION_SIZE);
+        entry.sectionIndex = sectionIndex;
+        entry.key = wordKey(entry);
+        if (!sections[sectionIndex]) {
+          sections[sectionIndex] = {
+            index: sectionIndex,
+            title: `Section ${sectionIndex + 1}`,
+            start: index + 1,
+            end: index + 1,
+            entries: []
+          };
+        }
+        sections[sectionIndex].entries.push(entry);
+        sections[sectionIndex].end = index + 1;
+      });
+    }
+
+    function populateScopeOptions() {
+      quizScope.innerHTML = "";
+      quizScope.appendChild(new Option("All sections", "all"));
+      sections.forEach(section => {
+        quizScope.appendChild(new Option(`${section.title} (${section.start}-${section.end})`, String(section.index)));
+      });
+      quizScope.disabled = !sections.length;
+    }
+
+    function loadProgress() {
+      try {
+        const parsed = JSON.parse(localStorage.getItem(PROGRESS_STORAGE_KEY) || "{}");
+        progress = {
+          known: parsed.known && typeof parsed.known === "object" ? parsed.known : {},
+          unknown: parsed.unknown && typeof parsed.unknown === "object" ? parsed.unknown : {}
+        };
+      } catch (err) {
+        progress = { known: {}, unknown: {} };
+      }
+    }
+
+    function saveProgress() {
+      try {
+        localStorage.setItem(PROGRESS_STORAGE_KEY, JSON.stringify(progress));
+      } catch (err) {}
+    }
+
+    function wordKey(entry) {
+      return String(entry.word || "").trim().toLowerCase();
+    }
+
+    function getWordStatus(entry) {
+      const key = entry.key || wordKey(entry);
+      if (progress.known[key]) return "known";
+      if (progress.unknown[key]) return "unknown";
+      return "";
+    }
+
+    function setWordStatus(entry, status) {
+      const key = entry.key || wordKey(entry);
+      delete progress.known[key];
+      delete progress.unknown[key];
+      if (status === "known") progress.known[key] = true;
+      if (status === "unknown") progress.unknown[key] = true;
+      saveProgress();
+      renderDashboard();
+      renderWordList(selectedSectionIndex);
+      updateCurrentWordStatus();
+    }
+
+    function getSectionStats(section) {
+      const total = section.entries.length;
+      let known = 0;
+      let unknown = 0;
+      section.entries.forEach(entry => {
+        const status = getWordStatus(entry);
+        if (status === "known") known += 1;
+        if (status === "unknown") unknown += 1;
+      });
+      return {
+        total,
+        known,
+        unknown,
+        percent: total ? Math.round((known / total) * 100) : 0
+      };
+    }
+
+    function renderDashboard() {
+      const totalKnown = entries.filter(entry => getWordStatus(entry) === "known").length;
+      const totalUnknown = entries.filter(entry => getWordStatus(entry) === "unknown").length;
+      overallKnown.textContent = totalKnown.toLocaleString();
+      overallUnknown.textContent = totalUnknown.toLocaleString();
+      overallPercent.textContent = entries.length ? `${Math.round((totalKnown / entries.length) * 100)}%` : "0%";
+
+      sectionGrid.innerHTML = "";
+      sections.forEach(section => {
+        const stats = getSectionStats(section);
+        const button = document.createElement("button");
+        button.className = `section-card${section.index === selectedSectionIndex ? " active" : ""}`;
+        button.type = "button";
+        button.innerHTML = `
+          <div class="section-card-title">
+            <span>${escapeHTML(section.title)}</span>
+            <span>${stats.percent}%</span>
+          </div>
+          <div class="section-card-meta">${section.start}-${section.end} &middot; ${stats.known}/${stats.total} known &middot; ${stats.unknown} need work</div>
+          <div class="progress-track"><div class="progress-fill" style="width:${stats.percent}%"></div></div>
+        `;
+        button.addEventListener("click", () => selectSection(section.index));
+        sectionGrid.appendChild(button);
+      });
+    }
+
+    function selectSection(index) {
+      selectedSectionIndex = Math.max(0, Math.min(index, sections.length - 1));
+      renderDashboard();
+      renderWordList(selectedSectionIndex);
+    }
+
+    function renderWordList(index) {
+      const section = sections[index];
+      if (!section) {
+        wordPanel.classList.remove("active");
+        return;
+      }
+
+      wordPanel.classList.add("active");
+      const stats = getSectionStats(section);
+      wordPanelTitle.textContent = `${section.title}: ${stats.known}/${stats.total} known`;
+      wordList.innerHTML = "";
+
+      section.entries.forEach(entry => {
+        const status = getWordStatus(entry);
+        const row = document.createElement("div");
+        row.className = "word-row";
+
+        const word = document.createElement("div");
+        word.className = "word-row-word";
+        word.textContent = entry.word;
+
+        const def = document.createElement("div");
+        def.className = "word-row-def";
+        def.textContent = entry.definition;
+
+        const actions = document.createElement("div");
+        actions.className = "mark-actions";
+        actions.append(
+          makeStatusButton(entry, "known", "Know it", status),
+          makeStatusButton(entry, "unknown", "Need work", status)
+        );
+
+        row.append(word, def, actions);
+        wordList.appendChild(row);
+      });
+    }
+
+    function makeStatusButton(entry, status, label, currentStatus) {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = `mark-btn ${status}${currentStatus === status ? " active" : ""}`;
+      button.textContent = currentStatus === status ? "Marked" : label;
+      button.addEventListener("click", () => {
+        setWordStatus(entry, currentStatus === status ? "" : status);
+      });
+      return button;
+    }
+
+    function clearSectionMarks(index) {
+      const section = sections[index];
+      if (!section) return;
+      section.entries.forEach(entry => {
+        const key = entry.key || wordKey(entry);
+        delete progress.known[key];
+        delete progress.unknown[key];
+      });
+      saveProgress();
+      renderDashboard();
+      renderWordList(index);
+      updateCurrentWordStatus();
+    }
+
+    function markCurrentWord(status) {
+      if (!correct) return;
+      setWordStatus(correct, status);
+    }
+
+    function updateCurrentWordStatus() {
+      if (!correct || !currentWordStatus) return;
+      const status = getWordStatus(correct);
+      currentWordStatus.textContent = status === "known"
+        ? `${correct.word} is marked known`
+        : status === "unknown"
+          ? `${correct.word} is marked need work`
+          : `Mark ${correct.word}`;
+      markKnownBtn.classList.toggle("active", status === "known");
+      markUnknownBtn.classList.toggle("active", status === "unknown");
+      markKnownBtn.textContent = status === "known" ? "Marked known" : "Know it";
+      markUnknownBtn.textContent = status === "unknown" ? "Marked need work" : "Need work";
+    }
+
+    function getSelectedScopeIndex() {
+      if (quizScope.value === "all") return null;
+      const index = Number(quizScope.value);
+      return Number.isInteger(index) ? index : null;
+    }
+
+    function getQuizEntriesForScope() {
+      const index = getSelectedScopeIndex();
+      if (index === null) return entries;
+      return sections[index] ? sections[index].entries : entries;
     }
 
     function parseCSV(text) {
@@ -1427,6 +1910,7 @@
 
       definitionText.textContent = correct.definition;
       renderQuestion();
+      updateCurrentWordStatus();
       updateStats();
     }
 
@@ -1542,12 +2026,13 @@
 
     function pickSamePartOfSpeechOptions(correctEntry) {
       const key = correctEntry.word.toLowerCase();
-      const samePos = entries.filter(entry =>
+      const optionPool = quizEntries.length >= NUM_OPTIONS ? quizEntries : entries;
+      const samePos = optionPool.filter(entry =>
         entry.word.toLowerCase() !== key &&
         entry.pos === correctEntry.pos
       );
 
-      const fallback = entries.filter(entry =>
+      const fallback = optionPool.filter(entry =>
         entry.word.toLowerCase() !== key &&
         entry.pos !== correctEntry.pos
       );
@@ -1650,6 +2135,7 @@
 
     function finishAnsweredQuestion() {
       showExplanations();
+      updateCurrentWordStatus();
       updateStats();
       updateHint();
       nextBtn.textContent = (!reviewOnly && shouldEndRegularSession()) ? "Finish" : "Next";
@@ -1795,6 +2281,17 @@
       renderSummary();
     }
 
+    function showStudyGoals() {
+      document.body.classList.remove("quiz-mode", "answered-mode");
+      quiz.classList.remove("active", "free-question", "answered");
+      summary.classList.remove("active");
+      setup.style.display = "";
+      setAnsweredUI(false);
+      renderDashboard();
+      renderWordList(selectedSectionIndex);
+      validateSessionLength();
+    }
+
     function renderSummary() {
       const missed = [...missedMap.values()].sort((a, b) => {
         if (b.missed !== a.missed) return b.missed - a.missed;
@@ -1874,10 +2371,18 @@
     function validateSessionLength() {
       clearError();
       const sessionValue = Number(mcqCount.value);
+      const scopedEntries = getQuizEntriesForScope();
+      if (scopedEntries.length) mcqCount.max = String(scopedEntries.length);
 
       if (!entries.length) {
         startBtn.disabled = true;
         sessionNote.textContent = "Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.";
+        return false;
+      }
+
+      if (!scopedEntries.length) {
+        startBtn.disabled = true;
+        sessionNote.textContent = "Choose a section with words before starting.";
         return false;
       }
 
@@ -1887,20 +2392,20 @@
         return false;
       }
 
-      if (sessionValue > entries.length) {
+      if (sessionValue > scopedEntries.length) {
         startBtn.disabled = true;
-        sessionNote.textContent = `Session length cannot exceed ${entries.length.toLocaleString()} unique words.`;
+        sessionNote.textContent = `Session length cannot exceed ${scopedEntries.length.toLocaleString()} unique words in this range.`;
         return false;
       }
 
-      if (entries.length < NUM_OPTIONS) {
+      if (scopedEntries.length < NUM_OPTIONS) {
         startBtn.disabled = true;
         sessionNote.textContent = `Multiple choice needs at least ${NUM_OPTIONS} usable words.`;
         return false;
       }
 
       startBtn.disabled = false;
-      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} (no repeats). Missed MCQs and later FRQs repeat until correct.`;
+      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.`;
       return true;
     }
 
@@ -1918,9 +2423,14 @@
         if (entries.length < NUM_OPTIONS) {
           throw new Error(`Need at least ${NUM_OPTIONS} usable rows with word and definition.`);
         }
+        buildSections();
+        loadProgress();
+        populateScopeOptions();
         countPill.textContent = `${entries.length.toLocaleString()} words loaded`;
-        vocabStatus.textContent = `Loaded ${entries.length.toLocaleString()} words from grewords.csv.`;
+        vocabStatus.textContent = `Loaded ${entries.length.toLocaleString()} words in ${sections.length} sections of about ${SECTION_SIZE}.`;
         mcqCount.max = String(entries.length);
+        selectSection(0);
+        renderDashboard();
         validateSessionLength();
       } catch (err) {
         entries = [];

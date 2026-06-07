@@ -2434,7 +2434,7 @@
           throw new Error(`Could not load ${VOCAB_URL}.`);
         }
         const csvText = await response.text();
-        entries = loadEntries(csvText);
+        entries = stableShuffleEntries(loadEntries(csvText));
         if (entries.length < NUM_OPTIONS) {
           throw new Error(`Need at least ${NUM_OPTIONS} usable rows with word and definition.`);
         }
@@ -2504,6 +2504,25 @@
         [array[i], array[j]] = [array[j], array[i]];
       }
       return array;
+    }
+
+    function stableShuffleEntries(list) {
+      return [...list].sort((a, b) => {
+        const aHash = stableWordHash(a.word);
+        const bHash = stableWordHash(b.word);
+        if (aHash !== bHash) return aHash - bHash;
+        return a.word.localeCompare(b.word);
+      });
+    }
+
+    function stableWordHash(value) {
+      const text = String(value || "").toLowerCase();
+      let hash = 2166136261;
+      for (let i = 0; i < text.length; i++) {
+        hash ^= text.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+      }
+      return hash >>> 0;
     }
 
     function showError(message) {

@@ -1260,6 +1260,34 @@
     }
 
     @media (max-width: 680px) {
+      body.quiz-mode header {
+        gap: 10px;
+        padding: 12px 16px;
+      }
+
+      body.quiz-mode .stats {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        width: 100%;
+        gap: 8px;
+      }
+
+      body.quiz-mode #countPill,
+      body.quiz-mode #buildPill {
+        display: none;
+      }
+
+      body.quiz-mode #scorePill,
+      body.quiz-mode #roundPill {
+        min-width: 0;
+        width: 100%;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        padding-inline: 8px;
+      }
+
       body.quiz-mode .quiz-scroll {
         padding: 16px 16px 10px;
       }
@@ -2370,6 +2398,10 @@
 
     function updateStats() {
       scorePill.textContent = `Score ${score}`;
+      if (isMobileQuizDevice() && quiz.classList.contains("active")) {
+        roundPill.textContent = `Round ${round}`;
+        return;
+      }
       if (sessionLimit && !reviewOnly) {
         const pending = wrongQueue.length + frqRetryQueue.length + delayedFreeQueue.length;
         const mcqProgress = `MCQ ${Math.min(newMcqCount, sessionLimit)}/${sessionLimit}`;

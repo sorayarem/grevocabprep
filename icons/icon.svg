@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title">
+  <title>GRE Vocab Quiz</title>
+  <rect width="512" height="512" rx="112" fill="#9b5c39"/>
+  <rect x="76" y="86" width="360" height="340" rx="54" fill="#fffdf8"/>
+  <path d="M152 166h184M152 226h208M152 286h158" fill="none" stroke="#7d482d" stroke-width="28" stroke-linecap="round"/>
+  <circle cx="358" cy="330" r="46" fill="#2e7048"/>
+  <path d="m333 330 18 18 38-46" fill="none" stroke="#fffdf8" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,2046 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GRE Vocab Quiz</title>
+  <meta name="theme-color" content="#9b5c39" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="GRE Vocab" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <!-- build: 2026-05-14-pinned-footer-v8.2 -->
+  <style>
+    @font-face {
+      font-family: "Stack Sans";
+      src: local("Stack Sans"), local("StackSans");
+      font-display: swap;
+    }
+
+    :root {
+      --bg: #f5f1e9;
+      --paper: #fffdf8;
+      --paper-2: #fbf7ef;
+      --text: #27231f;
+      --muted: #70685f;
+      --soft: #ded5c7;
+      --border: #d6ccb9;
+      --accent: #9b5c39;
+      --accent-2: #7d482d;
+      --good: #2e7048;
+      --good-bg: #e6f2ea;
+      --bad: #a13d3d;
+      --bad-bg: #f6e7e5;
+      --shadow: 0 22px 60px rgba(55, 43, 29, 0.13);
+      --radius: 24px;
+      --app-width: 980px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html {
+      overflow-y: scroll;
+      scrollbar-gutter: stable;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Stack Sans", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(155, 92, 57, 0.12), transparent 36rem),
+        linear-gradient(135deg, #f9f5ed 0%, var(--bg) 100%);
+      display: grid;
+      place-items: center;
+      padding: 32px 18px;
+    }
+
+    .app {
+      width: min(var(--app-width), 100%);
+      background: rgba(255, 253, 248, 0.86);
+      border: 1px solid rgba(214, 204, 185, 0.9);
+      border-radius: 32px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 24px 28px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255, 253, 248, 0.82);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #b86f43, #7d482d);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    }
+
+    h1 {
+      font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+      line-height: 1.05;
+      margin: 0;
+      letter-spacing: -0.04em;
+    }
+
+    .subhead {
+      color: var(--muted);
+      margin: 5px 0 0;
+      font-size: 0.95rem;
+    }
+
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .pill {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      background: var(--paper-2);
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    main {
+      padding: 28px;
+    }
+
+    .setup {
+      display: grid;
+      gap: 16px;
+      padding: 26px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .setup h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+
+    .setup p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.55;
+    }
+
+    .file-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+    }
+
+    input[type="file"] {
+      width: min(100%, 420px);
+      padding: 12px;
+      border: 1px dashed var(--border);
+      border-radius: 16px;
+      background: var(--paper-2);
+      color: var(--text);
+      font: inherit;
+    }
+
+    .session-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: end;
+      gap: 12px;
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 650;
+    }
+
+    input[type="number"] {
+      width: 150px;
+      padding: 12px 13px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      background: var(--paper-2);
+      color: var(--text);
+      font: inherit;
+      font-weight: 650;
+    }
+
+    .session-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.35;
+      max-width: 520px;
+    }
+
+    .saved-status {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.35;
+    }
+
+    button {
+      appearance: none;
+      border: 0;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 150ms ease, background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
+    }
+
+    button:hover:not(:disabled) { transform: translateY(-1px); }
+    button:active:not(:disabled) { transform: translateY(0); }
+    button:disabled { cursor: default; opacity: 0.55; }
+
+    /* Keep correct/wrong choice colors readable after answering */
+    button.choice:disabled {
+      opacity: 1;
+      transform: none;
+      pointer-events: none;
+    }
+
+    button.choice:disabled:hover {
+      transform: none;
+    }
+
+    .primary {
+      padding: 13px 18px;
+      border-radius: 16px;
+      background: var(--accent);
+      color: #fffaf2;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(125, 72, 45, 0.2);
+    }
+
+    .primary:hover:not(:disabled) { background: var(--accent-2); }
+
+    .primary.ready {
+      box-shadow: 0 0 0 3px rgba(155, 92, 57, 0.22), 0 10px 24px rgba(125, 72, 45, 0.28);
+    }
+
+    .ghost {
+      padding: 12px 16px;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--paper-2);
+      color: var(--text);
+      font-weight: 650;
+    }
+
+    .ghost:hover:not(:disabled) {
+      background: #fffaf1;
+      border-color: #b89478;
+    }
+
+    .ghost.ready:not(:disabled) {
+      border-color: var(--accent);
+      color: var(--accent-2);
+      background: #fff6ee;
+    }
+
+    button:focus-visible {
+      outline: 3px solid rgba(155, 92, 57, 0.28);
+      outline-offset: 2px;
+    }
+
+    .choice:focus-visible {
+      outline-offset: 1px;
+    }
+
+    .quiz {
+      display: none;
+      gap: 20px;
+    }
+
+    .quiz.active { display: grid; }
+
+    .definition-card {
+      padding: clamp(22px, 4vw, 34px);
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 0.78rem;
+      letter-spacing: 0.14em;
+      font-weight: 800;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .definition {
+      font-size: clamp(1.42rem, 3vw, 2.25rem);
+      line-height: 1.18;
+      letter-spacing: -0.045em;
+      max-width: 850px;
+      overflow-wrap: anywhere;
+    }
+
+    .choices {
+      display: grid;
+      gap: 12px;
+    }
+
+    .choice {
+      width: 100%;
+      text-align: left;
+      display: grid;
+      grid-template-columns: 42px 1fr;
+      align-items: center;
+      gap: 14px;
+      padding: 16px;
+      background: rgba(255, 253, 248, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      color: var(--text);
+      box-shadow: 0 8px 24px rgba(55, 43, 29, 0.055);
+    }
+
+    .choice:hover:not(:disabled) {
+      border-color: #b89478;
+      background: #fffaf1;
+    }
+
+    .choice .num {
+      display: grid;
+      place-items: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--paper-2);
+      color: var(--accent);
+      font-weight: 800;
+    }
+
+    .choice .word {
+      font-size: clamp(1.05rem, 2vw, 1.22rem);
+      font-weight: 720;
+      letter-spacing: -0.02em;
+    }
+
+    .choice.correct {
+      background: var(--good-bg);
+      border-color: rgba(46,112,72,0.55);
+    }
+    .choice.correct .num { background: #d5eadb; color: var(--good); }
+
+    .choice.wrong {
+      background: var(--bad-bg);
+      border-color: rgba(161,61,61,0.5);
+    }
+    .choice.wrong .num { background: #efd3d0; color: var(--bad); }
+
+    .feedback {
+      min-height: 24px;
+      font-weight: 800;
+      font-size: 1rem;
+    }
+    .feedback.good { color: var(--good); }
+    .feedback.bad { color: var(--bad); }
+
+
+    .free-response {
+      display: none;
+      gap: 12px;
+      padding: 16px;
+      background: rgba(255, 253, 248, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      box-shadow: 0 8px 24px rgba(55, 43, 29, 0.055);
+    }
+
+    .free-response.active { display: grid; }
+
+    .free-response label {
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .free-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 122px 122px;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .free-row button {
+      width: 122px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .free-input {
+      width: 100%;
+      min-width: 0;
+      padding: 13px 14px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      background: var(--paper-2);
+      color: var(--text);
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .free-input:focus {
+      outline: 3px solid rgba(155, 92, 57, 0.16);
+      border-color: #b89478;
+    }
+
+    .free-answer {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 15px;
+      background: var(--good-bg);
+      color: var(--good);
+      font-weight: 850;
+      line-height: 1.45;
+    }
+
+    .free-answer.active { display: block; }
+
+    .explain {
+      display: none;
+      background: rgba(255, 253, 248, 0.72);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .explain.active { display: block; }
+
+    .explain-header {
+      padding: 16px 18px;
+      border-bottom: 1px solid var(--border);
+      font-weight: 800;
+      color: var(--muted);
+      font-size: 0.88rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .explain-list {
+      display: grid;
+      gap: 0;
+    }
+
+    .explain-item {
+      display: grid;
+      grid-template-columns: minmax(120px, 190px) 1fr;
+      gap: 16px;
+      padding: 15px 18px;
+      border-bottom: 1px solid rgba(214, 204, 185, 0.65);
+      line-height: 1.45;
+    }
+
+    .explain-item:last-child { border-bottom: 0; }
+
+    .explain-word {
+      font-weight: 800;
+      color: var(--text);
+    }
+
+    .explain-item.answer .explain-word { color: var(--good); }
+
+    .explain-def {
+      color: var(--muted);
+    }
+
+    .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 20px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+
+
+    .footer-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+
+    /* After answering: hide stale inputs, keep revealed FRQ answer visible */
+    .quiz.answered:not(.free-question) .free-response {
+      display: none !important;
+    }
+
+    .quiz.answered.free-question .free-row {
+      display: none;
+    }
+
+    .quiz.answered .choices {
+      display: none;
+    }
+
+    .quiz.answered .explain.active {
+      border: none;
+      border-radius: 0;
+      background: transparent;
+      margin: 0;
+      overflow: visible;
+    }
+
+    .quiz.answered .explain-header {
+      border-bottom: none;
+      padding: 4px 0 10px;
+    }
+
+    .summary {
+      display: none;
+      gap: 18px;
+      padding: 26px;
+      background: var(--paper);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      max-height: calc(100dvh - 96px);
+      overflow: hidden;
+    }
+
+    .summary.active {
+      display: grid;
+      grid-template-rows: auto auto auto minmax(0, 1fr) auto;
+    }
+
+    .summary h2 {
+      margin: 0;
+      font-size: 1.3rem;
+      letter-spacing: -0.03em;
+    }
+
+    .summary-lede {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .summary-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .missed-list {
+      display: grid;
+      gap: 10px;
+      min-height: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 6px;
+      overscroll-behavior: contain;
+    }
+
+    .missed-item {
+      display: grid;
+      grid-template-columns: minmax(120px, 190px) 1fr auto;
+      gap: 14px;
+      align-items: start;
+      padding: 14px 16px;
+      border: 1px solid rgba(214, 204, 185, 0.8);
+      border-radius: 16px;
+      background: rgba(251, 247, 239, 0.85);
+      line-height: 1.45;
+    }
+
+    .missed-word {
+      font-weight: 850;
+      color: var(--text);
+    }
+
+    .missed-def {
+      color: var(--muted);
+    }
+
+    .missed-count {
+      white-space: nowrap;
+      color: var(--bad);
+      font-weight: 800;
+      font-size: 0.86rem;
+      background: var(--bad-bg);
+      border-radius: 999px;
+      padding: 5px 9px;
+    }
+
+    .summary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: flex-end;
+      padding-top: 2px;
+      background: var(--paper);
+    }
+
+    .error {
+      display: none;
+      color: var(--bad);
+      background: var(--bad-bg);
+      border: 1px solid rgba(161,61,61,0.35);
+      padding: 12px 14px;
+      border-radius: 14px;
+      line-height: 1.45;
+    }
+
+    .error.active { display: block; }
+
+
+    /* Keep the quiz inside a real scroll viewport so answer definitions and
+       bottom controls are always reachable. */
+    body.quiz-mode {
+      height: 100dvh;
+      min-height: 100dvh;
+      overflow: hidden;
+      padding: 14px;
+      place-items: center;
+    }
+
+    body.quiz-mode .app {
+      height: calc(100dvh - 28px);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      max-width: var(--app-width);
+      width: min(var(--app-width), 100%);
+    }
+
+    body.quiz-mode header {
+      padding: 14px 20px;
+    }
+
+    body.quiz-mode .mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+    }
+
+    body.quiz-mode h1 {
+      font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    }
+
+    body.quiz-mode main {
+      min-height: 0;
+      padding: 0;
+      overflow: hidden;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      overscroll-behavior: contain;
+    }
+
+    body.quiz-mode .quiz.active {
+      min-height: 100%;
+      display: grid;
+      gap: 10px;
+    }
+
+    body.quiz-mode:not(.answered-mode) .quiz.active {
+      grid-template-rows: auto auto auto minmax(24px, 1fr) auto;
+    }
+
+    body.quiz-mode.answered-mode .quiz.active {
+      min-height: 0;
+      height: auto;
+      grid-template-rows: none;
+      grid-auto-rows: auto;
+      align-content: start;
+      padding-bottom: 18px;
+    }
+
+    body.quiz-mode .definition-card {
+      padding: clamp(14px, 2.4vw, 22px);
+      max-height: none;
+      overflow: visible;
+      border-radius: 20px;
+    }
+
+    body.quiz-mode .eyebrow {
+      margin-bottom: 7px;
+      font-size: 0.7rem;
+    }
+
+    body.quiz-mode .definition {
+      font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+      line-height: 1.22;
+      letter-spacing: -0.035em;
+    }
+
+    body.quiz-mode .feedback {
+      min-height: 20px;
+      font-size: 0.95rem;
+    }
+
+    body.quiz-mode:not(.answered-mode) .feedback {
+      align-self: start;
+    }
+
+    body.quiz-mode .hint {
+      font-size: 0.82rem;
+    }
+
+    body.quiz-mode .primary {
+      padding: 10px 15px;
+      border-radius: 13px;
+    }
+
+    body.quiz-mode.answered-mode .explain.active {
+      display: block;
+      min-height: 0;
+      overflow: visible;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+
+    /* Keep answer choices the same compact size before and after answering. */
+    body.quiz-mode .choices {
+      gap: 8px;
+    }
+
+    body.quiz-mode .choice {
+      min-height: 54px;
+      grid-template-columns: 34px 1fr;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+
+    body.quiz-mode .choice .num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+    }
+
+    body.quiz-mode .choice .word {
+      font-size: clamp(0.98rem, 1.6vw, 1.1rem);
+    }
+
+
+    @media (max-width: 680px) {
+      body { padding: 14px; }
+      header, main { padding: 20px; }
+      header { align-items: flex-start; flex-direction: column; }
+      .stats { justify-content: flex-start; }
+      .choice { grid-template-columns: 36px 1fr; padding: 14px; }
+      .choice .num { width: 36px; height: 36px; border-radius: 12px; }
+      .explain-item { grid-template-columns: 1fr; gap: 6px; }
+      .footer { flex-direction: column; align-items: stretch; }
+      .footer-actions { justify-content: stretch; }
+      .footer-actions button { flex: 1; }
+      .free-row { grid-template-columns: 1fr; }
+      .missed-item { grid-template-columns: 1fr; gap: 6px; }
+      body.quiz-mode .quiz.free-question .free-row { grid-template-columns: 1fr; }
+      body.quiz-mode .quiz.free-question .footer { width: 100%; }
+
+    }
+
+
+    /* Lock the quiz sizing scale before AND after answering. Only the explanation
+       area appears below after an answer; the definition, header, and choices do
+       not expand or jump to the larger default layout. */
+    body.quiz-mode header {
+      padding: 14px 20px;
+    }
+
+    body.quiz-mode .mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 8px;
+    }
+
+    body.quiz-mode h1 {
+      font-size: clamp(1.15rem, 1.8vw, 1.45rem);
+    }
+
+    body.quiz-mode main {
+      padding: 16px 20px 18px;
+    }
+
+    body.quiz-mode .quiz.active {
+      gap: 10px;
+    }
+
+    body.quiz-mode .definition-card {
+      padding: clamp(14px, 2.4vw, 22px);
+      max-height: none;
+      overflow: visible;
+      border-radius: 20px;
+    }
+
+    body.quiz-mode .eyebrow {
+      margin-bottom: 7px;
+      font-size: 0.7rem;
+    }
+
+    body.quiz-mode .definition {
+      font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+      line-height: 1.22;
+      letter-spacing: -0.035em;
+    }
+
+    body.quiz-mode .feedback {
+      min-height: 20px;
+      font-size: 0.95rem;
+    }
+
+    body.quiz-mode .footer {
+      margin-top: 0;
+    }
+
+    body.quiz-mode .hint {
+      font-size: 0.82rem;
+    }
+
+
+    body.quiz-mode .free-response {
+      gap: 8px;
+      padding: 12px;
+      border-radius: 14px;
+      box-shadow: none;
+    }
+
+    body.quiz-mode .free-row {
+      grid-template-columns: minmax(0, 1fr) 122px 122px;
+      gap: 12px;
+    }
+
+    body.quiz-mode .free-input {
+      padding: 10px 12px;
+      border-radius: 13px;
+    }
+
+    body.quiz-mode .footer {
+      align-self: end;
+      padding-top: 10px;
+      margin-top: 4px;
+      background: transparent;
+      border-top: 0;
+    }
+
+    body.quiz-mode .quiz:not(.free-question) .choices {
+      margin-bottom: 6px;
+    }
+
+    body.quiz-mode:not(.answered-mode) .quiz:not(.free-question) .feedback {
+      min-height: 24px;
+    }
+
+    body.quiz-mode .explain.active {
+      scrollbar-gutter: stable;
+    }
+
+    body.quiz-mode .quiz.free-question .free-response {
+      width: 100%;
+      justify-self: stretch;
+      align-self: start;
+    }
+
+    body.quiz-mode .quiz.free-question .free-row {
+      width: 100%;
+      grid-template-columns: minmax(0, 1fr) 122px 122px;
+      gap: 12px;
+    }
+
+    body.quiz-mode .quiz.free-question .free-row button {
+      width: 122px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    body.quiz-mode .quiz.free-question .footer {
+      width: 100%;
+      justify-self: stretch;
+    }
+
+    body.quiz-mode .primary {
+      padding: 10px 15px;
+      border-radius: 13px;
+    }
+
+    body.quiz-mode.answered-mode .app {
+      width: min(var(--app-width), 100%);
+      max-width: var(--app-width);
+    }
+
+    /* Prevent the tiny horizontal jump when explanations make the page scroll.
+       The quiz shell keeps one width in both answered and unanswered states. */
+    body.quiz-mode .app {
+      width: min(var(--app-width), 100%);
+      max-width: var(--app-width);
+    }
+
+
+
+    /* Final layout overrides: keep one scroll container and a reachable footer. */
+    body.quiz-mode,
+    body.quiz-mode.answered-mode {
+      height: 100dvh;
+      min-height: 100dvh;
+      overflow: hidden;
+      display: grid;
+      padding: 14px;
+    }
+
+    body.quiz-mode .app,
+    body.quiz-mode.answered-mode .app {
+      height: calc(100dvh - 28px);
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr);
+      margin: 0 auto;
+    }
+
+    body.quiz-mode main,
+    body.quiz-mode.answered-mode main {
+      min-height: 0;
+      overflow: hidden;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    body.quiz-mode .quiz.active {
+      min-height: 100%;
+    }
+
+    body.quiz-mode.answered-mode .quiz.active {
+      min-height: 0;
+      padding-bottom: 10px;
+    }
+
+    body.quiz-mode .footer,
+    body.quiz-mode .quiz.free-question .footer {
+      width: 100%;
+      justify-self: stretch;
+      align-self: end;
+      margin-top: 10px;
+      padding-top: 10px;
+    }
+
+    body.quiz-mode .quiz.free-question .free-response {
+      width: 100%;
+      justify-self: stretch;
+    }
+
+
+    @media (max-width: 680px) {
+      body.quiz-mode .free-row,
+      body.quiz-mode .quiz.free-question .free-row {
+        grid-template-columns: 1fr;
+      }
+
+      body.quiz-mode .free-row button,
+      body.quiz-mode .quiz.free-question .free-row button {
+        width: 100%;
+      }
+    }
+
+    /* Scroll question content only; pin End session / Next to viewport bottom */
+    body.quiz-mode main,
+    body.quiz-mode.answered-mode main {
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+      min-height: 0;
+    }
+
+    body.quiz-mode .quiz.active {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 auto;
+      min-height: 0;
+      height: 100%;
+      gap: 0;
+      padding: 0;
+      grid-template-rows: unset;
+      grid-auto-rows: unset;
+      align-content: stretch;
+    }
+
+    body.quiz-mode .quiz-scroll {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 16px 20px 12px;
+      overscroll-behavior: contain;
+      scrollbar-gutter: stable;
+    }
+
+    body.quiz-mode .quiz > .footer {
+      flex-shrink: 0;
+      position: static;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 0;
+      box-sizing: border-box;
+      padding: 12px 20px 14px;
+      border-top: 1px solid var(--border);
+      background: rgba(255, 253, 248, 0.86);
+      box-shadow: none;
+      width: 100%;
+      align-self: stretch;
+    }
+
+    body.quiz-mode .quiz > .footer .hint {
+      flex: 1 1 auto;
+      min-width: 0;
+      line-height: 1.35;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      align-items: center;
+      min-height: 42px;
+    }
+
+    body.quiz-mode .quiz > .footer .footer-actions {
+      flex: 0 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      min-width: 278px;
+      min-height: 42px;
+    }
+
+    body.quiz-mode .quiz > .footer .footer-actions button {
+      flex: 0 0 auto;
+      box-sizing: border-box;
+      text-align: center;
+      white-space: nowrap;
+      padding: 10px 14px;
+      border-radius: 13px;
+    }
+
+    body.quiz-mode .quiz > .footer .footer-actions .ghost {
+      width: 128px;
+      min-width: 128px;
+    }
+
+    body.quiz-mode .quiz > .footer .footer-actions .primary {
+      width: 120px;
+      min-width: 120px;
+    }
+
+    body.quiz-mode .quiz > .footer .footer-actions .primary.ready {
+      box-shadow: 0 0 0 3px rgba(155, 92, 57, 0.22), 0 10px 24px rgba(125, 72, 45, 0.28);
+    }
+
+    body.quiz-mode .quiz-scroll .feedback {
+      min-height: 24px;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    @media (max-width: 680px) {
+      body.quiz-mode .quiz-scroll {
+        padding: 16px 16px 10px;
+      }
+
+      body.quiz-mode .quiz > .footer {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+        padding: 12px 16px 14px;
+      }
+
+      body.quiz-mode .quiz > .footer .hint {
+        min-height: 0;
+      }
+
+      body.quiz-mode .quiz > .footer .footer-actions {
+        min-height: 0;
+      }
+
+      body.quiz-mode .quiz > .footer .footer-actions {
+        min-width: 0;
+        width: 100%;
+        justify-content: stretch;
+      }
+
+      body.quiz-mode .quiz > .footer .footer-actions button {
+        flex: 1 1 0;
+        width: auto;
+        min-width: 0;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="mark" aria-hidden="true"></div>
+        <div>
+          <h1>GRE Vocab Quiz</h1>
+        </div>
+      </div>
+      <div class="stats" aria-live="polite">
+        <div class="pill" id="scorePill">Score 0</div>
+        <div class="pill" id="roundPill">Round 0</div>
+        <div class="pill" id="countPill">No CSV loaded</div>
+        <div class="pill" id="buildPill" title="File version">v8.2</div>
+      </div>
+    </header>
+
+    <main>
+      <section class="setup" id="setup">
+        <h2>Load your vocabulary CSV</h2>
+        <p>Select your vocabulary CSV. The file should have two columns named <strong>word</strong> and <strong>definition</strong>.</p>
+        <div class="file-row">
+          <input id="csvFile" type="file" accept=".csv,text/csv" />
+        </div>
+        <div class="saved-status" id="savedStatus">Loaded vocab is saved on this device after you choose a CSV.</div>
+        <div class="session-row">
+          <div class="field">
+            <label for="mcqCount">Session questions</label>
+            <input id="mcqCount" type="number" min="1" step="1" value="25" inputmode="numeric" />
+          </div>
+          <button class="primary" id="startBtn" disabled>Start quiz</button>
+          <div class="session-note" id="sessionNote">Load a CSV first, then choose the session length. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.</div>
+        </div>
+        <div class="error" id="errorBox"></div>
+      </section>
+
+      <section class="quiz" id="quiz" aria-live="polite">
+        <div class="quiz-scroll">
+          <article class="definition-card">
+          <div class="eyebrow">Definition</div>
+          <div class="definition" id="definitionText"></div>
+        </article>
+
+        <div class="choices" id="choices"></div>
+        <section class="free-response" id="freeResponse">
+          <label for="freeInput">Type the word that matches this definition</label>
+          <div class="free-row">
+            <input class="free-input" id="freeInput" type="text" autocomplete="off" spellcheck="false" />
+            <button class="primary" id="submitFreeBtn" type="button">Submit</button>
+            <button class="ghost" id="seeAnswerBtn" type="button" disabled>See answer</button>
+          </div>
+          <div class="free-answer" id="freeAnswer"></div>
+        </section>
+        <div class="feedback" id="feedback"></div>
+
+        <section class="explain" id="explain">
+          <div class="explain-header">Definitions for all choices</div>
+          <div class="explain-list" id="explainList"></div>
+        </section>
+        </div>
+
+        <div class="footer">
+          <div class="hint" id="hintText">Press 1-5 to answer. Press Space or Enter after answering to continue.</div>
+          <div class="footer-actions">
+            <button class="ghost" id="endBtn" type="button">End session</button>
+            <button class="primary" id="nextBtn" disabled>Next</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="summary" id="summary">
+        <h2>Session review</h2>
+        <p class="summary-lede" id="summaryLede"></p>
+        <div class="summary-stats">
+          <div class="pill" id="summaryScore"></div>
+          <div class="pill" id="summaryRounds"></div>
+          <div class="pill" id="summaryMissed"></div>
+        </div>
+        <div class="missed-list" id="missedList"></div>
+        <div class="summary-actions">
+          <button class="ghost" id="backToQuizBtn" type="button">Back to quiz</button>
+          <button class="ghost" id="restartBtn" type="button">Restart session</button>
+          <button class="primary" id="reviewMissedBtn" type="button">Review missed words</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const NUM_OPTIONS = 5;
+    const VOCAB_STORAGE_KEY = "gre-vocab-quiz:csv:v1";
+    const VOCAB_NAME_KEY = "gre-vocab-quiz:csv-name:v1";
+
+    let entries = [];
+    let score = 0;
+    let round = 0;
+    let answered = false;
+    let correct = null;
+    let options = [];
+    let missedMap = new Map();
+    let wrongQueue = [];
+    let reviewOnly = false;
+    let sessionLimit = 25;
+    let newMcqCount = 0;
+    let freeAsked = 0;
+    let questionType = "choice";
+    let freeAnswerRevealed = false;
+    let delayedFreeQueue = [];
+    let frqRetryQueue = [];
+    let lastQuestionWordKey = "";
+    let unusedNewMcqPool = [];
+
+    const setup = document.getElementById("setup");
+    const quiz = document.getElementById("quiz");
+    const csvFile = document.getElementById("csvFile");
+    const mcqCount = document.getElementById("mcqCount");
+    const freeCount = null;
+    const sessionNote = document.getElementById("sessionNote");
+    const startBtn = document.getElementById("startBtn");
+    const nextBtn = document.getElementById("nextBtn");
+    const endBtn = document.getElementById("endBtn");
+    const summary = document.getElementById("summary");
+    const summaryLede = document.getElementById("summaryLede");
+    const summaryScore = document.getElementById("summaryScore");
+    const summaryRounds = document.getElementById("summaryRounds");
+    const summaryMissed = document.getElementById("summaryMissed");
+    const missedList = document.getElementById("missedList");
+    const backToQuizBtn = document.getElementById("backToQuizBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const reviewMissedBtn = document.getElementById("reviewMissedBtn");
+    const errorBox = document.getElementById("errorBox");
+    const scorePill = document.getElementById("scorePill");
+    const roundPill = document.getElementById("roundPill");
+    const countPill = document.getElementById("countPill");
+    const definitionText = document.getElementById("definitionText");
+    const choicesEl = document.getElementById("choices");
+    const feedback = document.getElementById("feedback");
+    const explain = document.getElementById("explain");
+    const explainList = document.getElementById("explainList");
+    const freeResponse = document.getElementById("freeResponse");
+    const freeInput = document.getElementById("freeInput");
+    const submitFreeBtn = document.getElementById("submitFreeBtn");
+    const seeAnswerBtn = document.getElementById("seeAnswerBtn");
+    const freeAnswer = document.getElementById("freeAnswer");
+    const hintText = document.getElementById("hintText");
+    const savedStatus = document.getElementById("savedStatus");
+
+    csvFile.addEventListener("change", async () => {
+      clearError();
+      startBtn.disabled = true;
+      const file = csvFile.files[0];
+      if (!file) return;
+
+      try {
+        const text = await file.text();
+        entries = loadEntries(text);
+        if (entries.length < NUM_OPTIONS) {
+          throw new Error(`Need at least ${NUM_OPTIONS} usable rows with word and definition.`);
+        }
+        const saved = saveVocabulary(text, file.name || "vocab.csv");
+        countPill.textContent = `${entries.length.toLocaleString()} words loaded`;
+        if (saved) {
+          savedStatus.textContent = `Saved ${entries.length.toLocaleString()} words on this device.`;
+        }
+        mcqCount.max = String(entries.length);
+        validateSessionLength();
+      } catch (err) {
+        showError(err.message || String(err));
+        countPill.textContent = "No CSV loaded";
+        entries = [];
+        validateSessionLength();
+      }
+    });
+
+    mcqCount.addEventListener("input", validateSessionLength);
+    if (freeCount) freeCount.addEventListener("input", validateSessionLength);
+
+    startBtn.addEventListener("click", () => {
+      if (!validateSessionLength()) return;
+      startSession();
+    });
+
+    nextBtn.addEventListener("click", nextQuestion);
+    endBtn.addEventListener("click", showSummary);
+    submitFreeBtn.addEventListener("click", submitFreeResponse);
+    seeAnswerBtn.addEventListener("click", () => revealFreeAnswer(false));
+    freeInput.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" && !answered) {
+        event.preventDefault();
+        submitFreeResponse();
+      }
+    });
+    backToQuizBtn.addEventListener("click", () => {
+      summary.classList.remove("active");
+      quiz.classList.add("active");
+      document.body.classList.add("quiz-mode");
+      setAnsweredUI(answered);
+    });
+    restartBtn.addEventListener("click", () => {
+      if (!entries.length) return;
+      if (!validateSessionLength()) return;
+      startSession();
+    });
+    reviewMissedBtn.addEventListener("click", startMissedReview);
+
+    loadSavedVocabulary();
+    registerServiceWorker();
+
+    window.addEventListener("keydown", (event) => {
+      if (!quiz.classList.contains("active")) return;
+
+      if (questionType === "choice" && /^[1-5]$/.test(event.key) && !answered) {
+        choose(Number(event.key) - 1);
+      }
+
+      if (answered && (event.key === " " || event.key === "Enter")) {
+        const tag = event.target && event.target.tagName;
+        if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+        event.preventDefault();
+        nextQuestion();
+      }
+    });
+
+    function startSession() {
+      sessionLimit = Number(mcqCount.value);
+      setup.style.display = "none";
+      summary.classList.remove("active");
+      quiz.classList.add("active");
+      document.body.classList.add("quiz-mode");
+      quiz.classList.remove("answered", "free-question");
+      setAnsweredUI(false);
+      score = 0;
+      round = 0;
+      answered = false;
+      correct = null;
+      options = [];
+      missedMap = new Map();
+      wrongQueue = [];
+      reviewOnly = false;
+      newMcqCount = 0;
+      freeAsked = 0;
+      questionType = "choice";
+      freeAnswerRevealed = false;
+      delayedFreeQueue = [];
+      frqRetryQueue = [];
+      lastQuestionWordKey = "";
+      unusedNewMcqPool = shuffle([...entries]);
+      updateStats();
+      nextQuestion();
+    }
+
+    function pickNextNewMcqEntry() {
+      if (!unusedNewMcqPool.length) return null;
+      return unusedNewMcqPool.pop();
+    }
+
+    function loadEntries(csvText) {
+      const rows = parseCSV(csvText);
+      if (!rows.length) throw new Error("CSV is empty.");
+
+      const headers = rows[0].map(h => h.trim().toLowerCase());
+      const wordIndex = headers.indexOf("word");
+      const defIndex = headers.indexOf("definition");
+      const posIndex = headers.findIndex(header =>
+        ["part_of_speech", "part of speech", "pos", "speech"].includes(header)
+      );
+
+      if (wordIndex === -1 || defIndex === -1) {
+        throw new Error("CSV must contain columns named word and definition.");
+      }
+
+      const seen = new Set();
+      const out = [];
+
+      for (const row of rows.slice(1)) {
+        const word = String(row[wordIndex] || "").trim();
+        const definition = String(row[defIndex] || "").trim();
+        if (!word || !definition) continue;
+        if (definition.toUpperCase().startsWith("[NO DEFINITION")) continue;
+        const key = word.toLowerCase();
+        if (seen.has(key)) continue;
+        seen.add(key);
+        const givenPos = posIndex === -1 ? "" : String(row[posIndex] || "").trim();
+        out.push({ word, definition, pos: normalizePartOfSpeech(givenPos) || inferPartOfSpeech(word, definition) });
+      }
+      return out;
+    }
+
+    function parseCSV(text) {
+      const rows = [];
+      let row = [];
+      let field = "";
+      let inQuotes = false;
+
+      for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        const next = text[i + 1];
+
+        if (char === '"') {
+          if (inQuotes && next === '"') {
+            field += '"';
+            i++;
+          } else {
+            inQuotes = !inQuotes;
+          }
+        } else if (char === "," && !inQuotes) {
+          row.push(field);
+          field = "";
+        } else if ((char === "\n" || char === "\r") && !inQuotes) {
+          if (char === "\r" && next === "\n") i++;
+          row.push(field);
+          if (row.some(cell => cell.trim() !== "")) rows.push(row);
+          row = [];
+          field = "";
+        } else {
+          field += char;
+        }
+      }
+
+      row.push(field);
+      if (row.some(cell => cell.trim() !== "")) rows.push(row);
+      return rows;
+    }
+
+    function nextQuestion() {
+      if (!reviewOnly && shouldEndRegularSession()) {
+        showSummary();
+        return;
+      }
+      if (reviewOnly && wrongQueue.length === 0 && frqRetryQueue.length === 0) {
+        showSummary();
+        return;
+      }
+      summary.classList.remove("active");
+      quiz.classList.add("active");
+      document.body.classList.add("quiz-mode");
+      setAnsweredUI(false);
+      round += 1;
+      answered = false;
+      feedback.textContent = "";
+      feedback.className = "feedback";
+      explain.classList.remove("active");
+      explainList.innerHTML = "";
+      freeAnswer.classList.remove("active");
+      freeAnswer.textContent = "";
+      seeAnswerBtn.disabled = true;
+      seeAnswerBtn.classList.remove("ready");
+      submitFreeBtn.disabled = false;
+      freeInput.disabled = false;
+      freeInput.value = "";
+      nextBtn.disabled = true;
+      nextBtn.textContent = "Next";
+      freeAnswerRevealed = false;
+
+      const picked = pickQuestion();
+      if (!picked) {
+        showSummary();
+        return;
+      }
+      correct = picked.correct;
+      options = picked.options;
+      questionType = picked.type;
+
+      definitionText.textContent = correct.definition;
+      renderQuestion();
+      updateStats();
+    }
+
+    function pickQuestion() {
+      let correctEntry;
+      let useFreeResponse = false;
+
+      // A revealed/wrong FRQ must be repeated as FRQ until correct.
+      if (frqRetryQueue.length) {
+        correctEntry = pickQueuedEntry(frqRetryQueue);
+        useFreeResponse = true;
+        freeAsked += 1;
+      } else if (wrongQueue.length) {
+        correctEntry = pickQueuedEntry(wrongQueue);
+      } else if (shouldUseFreeResponse()) {
+        const dueItems = getDueFreeResponseItems();
+        correctEntry = pickQueuedItem(dueItems).entry;
+        useFreeResponse = true;
+        freeAsked += 1;
+      } else if (newMcqCount < sessionLimit) {
+        correctEntry = pickNextNewMcqEntry();
+        if (!correctEntry) {
+          const dueItems = getDueFreeResponseItems();
+          if (dueItems.length) {
+            correctEntry = pickQueuedItem(dueItems).entry;
+            useFreeResponse = true;
+            freeAsked += 1;
+          } else {
+            return null;
+          }
+        } else {
+          newMcqCount += 1;
+        }
+      } else {
+        const dueItems = getDueFreeResponseItems();
+        if (dueItems.length) {
+          correctEntry = pickQueuedItem(dueItems).entry;
+          useFreeResponse = true;
+          freeAsked += 1;
+        } else {
+          return null;
+        }
+      }
+
+      const selected = useFreeResponse ? [correctEntry] : pickSamePartOfSpeechOptions(correctEntry);
+      if (!useFreeResponse) shuffle(selected);
+      lastQuestionWordKey = correctEntry.word.toLowerCase();
+      return { correct: correctEntry, options: selected, type: useFreeResponse ? "free" : "choice" };
+    }
+
+    function shouldEndRegularSession() {
+      if (!sessionLimit || newMcqCount < sessionLimit) return false;
+      return wrongQueue.length === 0 && frqRetryQueue.length === 0 && delayedFreeQueue.length === 0;
+    }
+
+    function shouldUseFreeResponse() {
+      const dueItems = getDueFreeResponseItems();
+      if (!dueItems.length) return false;
+
+      if (newMcqCount >= sessionLimit) return true;
+
+      return round % 3 === 0 || dueItems.length >= 3;
+    }
+
+    function pickQueuedEntry(queue) {
+      const nonRepeat = queue.filter(entry => entry.word.toLowerCase() !== lastQuestionWordKey);
+      const source = nonRepeat.length ? nonRepeat : queue;
+      return source[Math.floor(Math.random() * source.length)];
+    }
+
+    function pickQueuedItem(queue) {
+      const nonRepeat = queue.filter(item => item.key !== lastQuestionWordKey);
+      const source = nonRepeat.length ? nonRepeat : queue;
+      return source[Math.floor(Math.random() * source.length)];
+    }
+
+    function queueDelayedFreeResponse(entry) {
+      const key = entry.word.toLowerCase();
+      if (delayedFreeQueue.some(item => item.key === key)) return;
+      if (frqRetryQueue.some(item => item.word.toLowerCase() === key)) return;
+      delayedFreeQueue.push({
+        key,
+        entry,
+        eligibleAfterRound: round + 2
+      });
+    }
+
+    function queueFreeRetry(entry) {
+      const key = entry.word.toLowerCase();
+      removeFromDelayedFreeQueue(entry);
+      if (!frqRetryQueue.some(item => item.word.toLowerCase() === key)) {
+        frqRetryQueue.push(entry);
+      }
+    }
+
+    function getDueFreeResponseItems() {
+      const forceDue = newMcqCount >= sessionLimit && wrongQueue.length === 0;
+      return delayedFreeQueue.filter(item =>
+        (forceDue || item.eligibleAfterRound <= round) &&
+        (forceDue || item.key !== lastQuestionWordKey)
+      );
+    }
+
+    function removeFromDelayedFreeQueue(entry) {
+      const key = entry.word.toLowerCase();
+      delayedFreeQueue = delayedFreeQueue.filter(item => item.key !== key);
+    }
+
+    function removeFromFreeRetryQueue(entry) {
+      const key = entry.word.toLowerCase();
+      frqRetryQueue = frqRetryQueue.filter(item => item.word.toLowerCase() !== key);
+    }
+
+    function pickSamePartOfSpeechOptions(correctEntry) {
+      const key = correctEntry.word.toLowerCase();
+      const samePos = entries.filter(entry =>
+        entry.word.toLowerCase() !== key &&
+        entry.pos === correctEntry.pos
+      );
+
+      const fallback = entries.filter(entry =>
+        entry.word.toLowerCase() !== key &&
+        entry.pos !== correctEntry.pos
+      );
+
+      shuffle(samePos);
+      shuffle(fallback);
+
+      // Prefer same part of speech. If the inferred group is too small, fill the
+      // remaining slots so the quiz can still run on small or unusual CSVs.
+      return samePos.slice(0, NUM_OPTIONS - 1)
+        .concat(fallback.slice(0, Math.max(0, NUM_OPTIONS - 1 - samePos.length)))
+        .slice(0, NUM_OPTIONS - 1)
+        .concat(correctEntry);
+    }
+
+    function renderQuestion() {
+      choicesEl.innerHTML = "";
+      freeResponse.classList.toggle("active", questionType === "free");
+      quiz.classList.toggle("free-question", questionType === "free");
+      choicesEl.style.display = questionType === "choice" ? "grid" : "none";
+      updateHint();
+
+      if (questionType === "free") {
+        freeInput.focus();
+        return;
+      }
+
+      options.forEach((entry, index) => {
+        const button = document.createElement("button");
+        button.className = "choice";
+        button.type = "button";
+        button.innerHTML = `<span class="num">${index + 1}</span><span class="word"></span>`;
+        button.querySelector(".word").textContent = entry.word;
+        button.addEventListener("click", () => choose(index));
+        choicesEl.appendChild(button);
+      });
+    }
+
+
+
+    function submitFreeResponse() {
+      if (answered || questionType !== "free") return;
+      const typed = normalizeAnswer(freeInput.value);
+      if (!typed) {
+        feedback.textContent = "Type an answer first.";
+        feedback.className = "feedback bad";
+        return;
+      }
+
+      const isCorrect = typed === normalizeAnswer(correct.word);
+      if (isCorrect) {
+        answered = true;
+        score += 1;
+        feedback.textContent = "Correct";
+        feedback.className = "feedback good";
+        removeFromFreeRetryQueue(correct);
+        removeFromDelayedFreeQueue(correct);
+        markCorrectIfRepeated(correct);
+        freeInput.disabled = true;
+        submitFreeBtn.disabled = true;
+        seeAnswerBtn.disabled = true;
+        seeAnswerBtn.classList.remove("ready");
+        revealFreeAnswer(true);
+        finishAnsweredQuestion();
+      } else {
+        feedback.textContent = "Not quite. Try again, or click See answer to reveal it.";
+        feedback.className = "feedback bad";
+        freeInput.disabled = false;
+        submitFreeBtn.disabled = false;
+        seeAnswerBtn.disabled = false;
+        seeAnswerBtn.classList.add("ready");
+        freeInput.focus();
+        freeInput.select();
+      }
+    }
+
+    function revealFreeAnswer(wasCorrect = false) {
+      if (questionType !== "free") return;
+      // If this function is accidentally used directly as an event handler,
+      // the first argument will be a click event. Treat that as an incorrect reveal,
+      // not as a truthy "wasCorrect" value.
+      if (wasCorrect && typeof wasCorrect === "object") wasCorrect = false;
+      freeAnswerRevealed = true;
+      freeAnswer.innerHTML = `<strong>Answer:</strong> ${escapeHTML(correct.word)}`;
+      freeAnswer.classList.add("active");
+
+      if (!wasCorrect && !answered) {
+        answered = true;
+        feedback.textContent = `Wrong - the answer was ${correct.word}`;
+        feedback.className = "feedback bad";
+        trackMiss(correct, "free");
+        queueFreeRetry(correct);
+        freeInput.disabled = true;
+        submitFreeBtn.disabled = true;
+        seeAnswerBtn.disabled = true;
+        seeAnswerBtn.classList.remove("ready");
+        finishAnsweredQuestion();
+      }
+    }
+
+    function finishAnsweredQuestion() {
+      showExplanations();
+      updateStats();
+      updateHint();
+      nextBtn.textContent = (!reviewOnly && shouldEndRegularSession()) ? "Finish" : "Next";
+      setAnsweredUI(true);
+    }
+
+    function setAnsweredUI(isAnswered) {
+      quiz.classList.toggle("answered", isAnswered);
+      document.body.classList.toggle("answered-mode", isAnswered);
+
+      if (isAnswered) {
+        nextBtn.disabled = false;
+        nextBtn.classList.add("ready");
+        requestAnimationFrame(() => nextBtn.focus({ preventScroll: true }));
+        return;
+      }
+
+      nextBtn.disabled = true;
+      nextBtn.classList.remove("ready");
+    }
+
+    function updateHint() {
+      if (!hintText) return;
+      if (answered) {
+        hintText.textContent = "Press Space or Enter to continue.";
+        return;
+      }
+      if (questionType === "free") {
+        hintText.textContent = "Type the word, then press Enter or click Submit. Use See answer if you are stuck.";
+        return;
+      }
+      hintText.textContent = "Press 1-5 to answer. Press Space or Enter after answering to continue.";
+    }
+
+    function normalizeAnswer(value) {
+      return String(value || "")
+        .trim()
+        .toLowerCase()
+        .replace(/[’']/g, "'")
+        .replace(/[^a-z0-9' -]/g, "")
+        .replace(/\s+/g, " ");
+    }
+
+    function escapeHTML(value) {
+      return String(value || "").replace(/[&<>'"]/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+      }[char]));
+    }
+
+    function choose(index) {
+      if (answered) return;
+      answered = true;
+
+      const buttons = [...choicesEl.querySelectorAll(".choice")];
+      const chosen = options[index];
+      const isCorrect = chosen.word.toLowerCase() === correct.word.toLowerCase();
+
+      if (isCorrect) {
+        score += 1;
+        feedback.textContent = "Correct";
+        feedback.className = "feedback good";
+        markCorrectIfRepeated(correct);
+        queueDelayedFreeResponse(correct);
+      } else {
+        feedback.textContent = `Wrong - the answer was ${correct.word}`;
+        feedback.className = "feedback bad";
+        trackMiss(correct, "choice");
+      }
+
+      buttons.forEach((button, i) => {
+        button.disabled = true;
+        const word = options[i].word.toLowerCase();
+        if (word === correct.word.toLowerCase()) button.classList.add("correct");
+        else if (i === index) button.classList.add("wrong");
+      });
+
+      finishAnsweredQuestion();
+    }
+
+    function showExplanations() {
+      explain.classList.add("active");
+      explainList.innerHTML = "";
+
+      const list = questionType === "free" ? [correct] : options;
+      list.forEach(entry => {
+        const item = document.createElement("div");
+        const isAnswer = entry.word.toLowerCase() === correct.word.toLowerCase();
+        item.className = `explain-item${isAnswer ? " answer" : ""}`;
+
+        const word = document.createElement("div");
+        word.className = "explain-word";
+        word.textContent = entry.word;
+
+        const def = document.createElement("div");
+        def.className = "explain-def";
+        def.textContent = entry.definition;
+
+        item.append(word, def);
+        explainList.appendChild(item);
+      });
+    }
+
+
+    function trackMiss(entry, mode = questionType) {
+      const key = entry.word.toLowerCase();
+      const current = missedMap.get(key) || {
+        word: entry.word,
+        definition: entry.definition,
+        pos: entry.pos,
+        missed: 0,
+        corrected: 0
+      };
+      current.missed += 1;
+      missedMap.set(key, current);
+
+      if (mode === "choice" && !wrongQueue.some(item => item.word.toLowerCase() === key)) {
+        wrongQueue.push(entry);
+      }
+    }
+
+    function markCorrectIfRepeated(entry) {
+      const key = entry.word.toLowerCase();
+      if (!missedMap.has(key)) return;
+      const current = missedMap.get(key);
+      current.corrected += 1;
+      missedMap.set(key, current);
+
+      // Once you get a missed word right on a repeat, remove it from the repeat queue.
+      wrongQueue = wrongQueue.filter(item => item.word.toLowerCase() !== key);
+    }
+
+    function showSummary() {
+      // Leave quiz layout mode so the final review page can use its own
+      // scrollable missed-words panel without clipping the bottom buttons.
+      document.body.classList.remove("quiz-mode", "answered-mode");
+      quiz.classList.remove("active", "free-question", "answered");
+      nextBtn.classList.remove("ready");
+      summary.classList.add("active");
+      renderSummary();
+    }
+
+    function renderSummary() {
+      const missed = [...missedMap.values()].sort((a, b) => {
+        if (b.missed !== a.missed) return b.missed - a.missed;
+        return a.word.localeCompare(b.word);
+      });
+      const percent = round ? Math.round((score / round) * 100) : 0;
+
+      summaryScore.textContent = `Score ${score}/${round} (${percent}%)`;
+      summaryRounds.textContent = sessionLimit && !reviewOnly
+        ? `${Math.min(newMcqCount, sessionLimit)}/${sessionLimit} new MCQs · ${round} total rounds`
+        : `${round} rounds`;
+      summaryMissed.textContent = `${missed.length} missed word${missed.length === 1 ? "" : "s"}`;
+
+      if (!missed.length) {
+        summaryLede.textContent = "No missed words yet. Nice work.";
+        missedList.innerHTML = "";
+        reviewMissedBtn.disabled = true;
+        return;
+      }
+
+      summaryLede.textContent = "These are the words you missed this session. Missed words are automatically repeated during regular play, and you can also review only missed words.";
+      reviewMissedBtn.disabled = false;
+      missedList.innerHTML = "";
+
+      missed.forEach(item => {
+        const row = document.createElement("div");
+        row.className = "missed-item";
+
+        const word = document.createElement("div");
+        word.className = "missed-word";
+        word.textContent = item.word;
+
+        const def = document.createElement("div");
+        def.className = "missed-def";
+        def.textContent = item.definition;
+
+        const count = document.createElement("div");
+        count.className = "missed-count";
+        count.textContent = item.missed === 1 ? "missed once" : `missed ${item.missed}x`;
+
+        row.append(word, def, count);
+        missedList.appendChild(row);
+      });
+    }
+
+    function startMissedReview() {
+      wrongQueue = [...missedMap.values()].map(item => ({
+        word: item.word,
+        definition: item.definition,
+        pos: item.pos || inferPartOfSpeech(item.word, item.definition)
+      }));
+      if (!wrongQueue.length) return;
+      frqRetryQueue = [];
+      delayedFreeQueue = [];
+      reviewOnly = true;
+      summary.classList.remove("active");
+      quiz.classList.add("active");
+      document.body.classList.add("quiz-mode");
+      quiz.classList.remove("answered");
+      setAnsweredUI(false);
+      nextQuestion();
+    }
+
+    function updateStats() {
+      scorePill.textContent = `Score ${score}`;
+      if (sessionLimit && !reviewOnly) {
+        const pending = wrongQueue.length + frqRetryQueue.length + delayedFreeQueue.length;
+        const mcqProgress = `MCQ ${Math.min(newMcqCount, sessionLimit)}/${sessionLimit}`;
+        roundPill.textContent = pending
+          ? `Round ${round} · ${mcqProgress} · ${pending} follow-up${pending === 1 ? "" : "s"}`
+          : `Round ${round} · ${mcqProgress}`;
+      } else {
+        roundPill.textContent = `Round ${round}`;
+      }
+    }
+
+    function validateSessionLength() {
+      clearError();
+      const sessionValue = Number(mcqCount.value);
+
+      if (!entries.length) {
+        startBtn.disabled = true;
+        sessionNote.textContent = "Load a CSV first, then choose the session length. Words missed as multiple choice repeat as multiple choice until correct. After you get an MCQ correct, that same word appears later as free response and repeats until correct.";
+        return false;
+      }
+
+      if (!Number.isInteger(sessionValue) || sessionValue < 1) {
+        startBtn.disabled = true;
+        sessionNote.textContent = "Enter a whole number of 1 or more.";
+        return false;
+      }
+
+      if (sessionValue > entries.length) {
+        startBtn.disabled = true;
+        sessionNote.textContent = `Session length cannot exceed ${entries.length.toLocaleString()} unique words in the CSV.`;
+        return false;
+      }
+
+      if (entries.length < NUM_OPTIONS) {
+        startBtn.disabled = true;
+        sessionNote.textContent = `Multiple choice needs at least ${NUM_OPTIONS} usable words in the CSV.`;
+        return false;
+      }
+
+      startBtn.disabled = false;
+      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique new multiple-choice word${sessionValue === 1 ? "" : "s"} (no repeats). Missed MCQs and later FRQs repeat until correct.`;
+      return true;
+    }
+
+    function loadSavedVocabulary() {
+      try {
+        const savedCSV = localStorage.getItem(VOCAB_STORAGE_KEY);
+        if (!savedCSV) return;
+
+        entries = loadEntries(savedCSV);
+        if (entries.length < NUM_OPTIONS) return;
+
+        const savedName = localStorage.getItem(VOCAB_NAME_KEY) || "saved CSV";
+        countPill.textContent = `${entries.length.toLocaleString()} words loaded`;
+        savedStatus.textContent = `Using ${savedName} saved on this device. Choose a new CSV to replace it.`;
+        mcqCount.max = String(entries.length);
+        validateSessionLength();
+      } catch (err) {
+        savedStatus.textContent = "Saved vocab could not be loaded. Choose your CSV again.";
+      }
+    }
+
+    function saveVocabulary(csvText, fileName) {
+      try {
+        localStorage.setItem(VOCAB_STORAGE_KEY, csvText);
+        localStorage.setItem(VOCAB_NAME_KEY, fileName);
+        return true;
+      } catch (err) {
+        savedStatus.textContent = "Vocab loaded, but this browser could not save it for next time.";
+        return false;
+      }
+    }
+
+    function registerServiceWorker() {
+      if (!("serviceWorker" in navigator)) return;
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js").catch(() => {});
+      });
+    }
+
+    function normalizePartOfSpeech(value) {
+      const raw = String(value || "").trim().toLowerCase();
+      if (!raw) return "";
+      if (/^(n|noun)/.test(raw)) return "noun";
+      if (/^(v|verb)/.test(raw)) return "verb";
+      if (/^(adj|adjective)/.test(raw)) return "adjective";
+      if (/^(adv|adverb)/.test(raw)) return "adverb";
+      return "";
+    }
+
+    function inferPartOfSpeech(word, definition) {
+      const w = String(word || "").trim().toLowerCase();
+      const d = String(definition || "").trim().toLowerCase();
+      const start = d.replace(/^\([^)]*\)\s*/, "");
+
+      if (/^(adv\.?|adverb)\b/.test(start)) return "adverb";
+      if (/^(adj\.?|adjective)\b/.test(start)) return "adjective";
+      if (/^(v\.?|verb)\b/.test(start)) return "verb";
+      if (/^(n\.?|noun)\b/.test(start)) return "noun";
+
+      if (/\bly\b/.test(w) || w.endsWith("ly") || /^in a\b/.test(start)) return "adverb";
+
+      if (/^(a|an|the)\s+(person|thing|act|state|quality|instance|example|feeling|belief|practice|process|condition|trait|tendency|speech|remark|statement|group|place)\b/.test(start)) return "noun";
+      if (/\b(the act of|act of|state of|quality of|person who|one who)\b/.test(start)) return "noun";
+      if (/(tion|sion|ment|ness|ity|ance|ence|ism|ist|acy|age|ship|ure|hood|dom|or|er)$/.test(w)) return "noun";
+
+      if (/^(to\s+)?(be|become|make|cause|do|say|speak|write|give|take|put|remove|avoid|refuse|accept|reject|criticize|praise|attack|defend|support|oppose|show|hide|hold|move|go|come|change|reduce|increase|lessen|grow|destroy|create|explain|describe|question|ask|answer|urge|force|allow|prevent|keep|leave|send|bring|use|treat|regard|consider)\b/.test(start)) return "verb";
+      if (/^(abandon|abase|abate|abdicate|abet|abhor|abjure|abnegate|abound|abridge|abscond|absolve|accede|acclaim|accost|accrue|acerbate|admonish|adulterate|advocate|affect|aggrandize|alleviate|amalgamate|ameliorate|annex|appease|arbitrate|assail|assuage|attenuate|augment|aver|avert|bolster|castigate|censure|chastise|coalesce|coerce|concede|concur|condone|confound|construe|contravene|corroborate|decry|defer|denigrate|deride|disabuse|dissemble|elicit|emulate|enervate|engender|exacerbate|exculpate|exonerate|expedite|extol|gainsay|impugn|inure|juxtapose|lionize|mitigate|obfuscate|obviate|placate|proscribe|recant|refute|relegate|repudiate|rescind|substantiate|upbraid|vilify|vindicate)\b/.test(w)) return "verb";
+
+      if (/^(being|having|showing|marked by|characterized by|full of|lacking|free from|inclined to|tending to|able to|likely to|not\s+|very\s+|extremely\s+)/.test(start)) return "adjective";
+      if (/(ous|ive|able|ible|al|ial|ic|ical|ent|ant|ary|ory|less|ful|like|some|ile|ate|id)$/.test(w)) return "adjective";
+
+      return "noun";
+    }
+
+    function shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    function showError(message) {
+      errorBox.textContent = message;
+      errorBox.classList.add("active");
+    }
+
+    function clearError() {
+      errorBox.textContent = "";
+      errorBox.classList.remove("active");
+    }
+  </script>
+</body>
+</html>

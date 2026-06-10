@@ -191,6 +191,22 @@
       font-weight: 650;
     }
 
+    .check-field {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .check-field input {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--accent);
+    }
+
     input[type="number"] {
       width: 150px;
       padding: 12px 13px;
@@ -1369,6 +1385,10 @@
             <label for="mcqCount">Session questions</label>
             <input id="mcqCount" type="number" min="1" step="1" value="25" inputmode="numeric" />
           </div>
+          <label class="check-field" for="needsOnly">
+            <input id="needsOnly" type="checkbox" />
+            Needs work only
+          </label>
           <button class="primary" id="startBtn" disabled>Start quiz</button>
           <div class="session-note" id="sessionNote">Vocabulary is loading. Words missed as multiple choice repeat as multiple choice until correct.</div>
         </div>
@@ -1379,6 +1399,7 @@
             <div class="word-panel-title" id="wordPanelTitle"></div>
             <div class="mark-actions">
               <button class="ghost" id="quizSelectedBtn" type="button">Quiz section</button>
+              <button class="ghost" id="quizNeedsBtn" type="button">Quiz needs work</button>
               <button class="ghost" id="clearSectionBtn" type="button">Clear marks</button>
             </div>
           </div>
@@ -1508,11 +1529,13 @@
     const hintText = document.getElementById("hintText");
     const vocabStatus = document.getElementById("vocabStatus");
     const quizScope = document.getElementById("quizScope");
+    const needsOnly = document.getElementById("needsOnly");
     const sectionGrid = document.getElementById("sectionGrid");
     const wordPanel = document.getElementById("wordPanel");
     const wordPanelTitle = document.getElementById("wordPanelTitle");
     const wordList = document.getElementById("wordList");
     const quizSelectedBtn = document.getElementById("quizSelectedBtn");
+    const quizNeedsBtn = document.getElementById("quizNeedsBtn");
     const clearSectionBtn = document.getElementById("clearSectionBtn");
     const overallKnown = document.getElementById("overallKnown");
     const overallUnknown = document.getElementById("overallUnknown");
@@ -1523,9 +1546,14 @@
     const markUnknownBtn = document.getElementById("markUnknownBtn");
 
     mcqCount.addEventListener("input", validateSessionLength);
+    needsOnly.addEventListener("change", () => {
+      clampSessionLengthToScope();
+      validateSessionLength();
+    });
     quizScope.addEventListener("change", () => {
       const index = getSelectedScopeIndex();
       if (index !== null) selectSection(index);
+      clampSessionLengthToScope();
       validateSessionLength();
     });
     if (freeCount) freeCount.addEventListener("input", validateSessionLength);
@@ -1560,6 +1588,14 @@
     reviewMissedBtn.addEventListener("click", startMissedReview);
     quizSelectedBtn.addEventListener("click", () => {
       quizScope.value = String(selectedSectionIndex);
+      needsOnly.checked = false;
+      clampSessionLengthToScope();
+      if (validateSessionLength()) startSession();
+    });
+    quizNeedsBtn.addEventListener("click", () => {
+      quizScope.value = String(selectedSectionIndex);
+      needsOnly.checked = true;
+      clampSessionLengthToScope();
       if (validateSessionLength()) startSession();
     });
     clearSectionBtn.addEventListener("click", () => clearSectionMarks(selectedSectionIndex));
@@ -1719,6 +1755,7 @@
       renderDashboard();
       renderWordList(selectedSectionIndex);
       updateCurrentWordStatus();
+      validateSessionLength();
     }
 
     function getSectionStats(section) {
@@ -1780,6 +1817,7 @@
       wordPanel.classList.add("active");
       const stats = getSectionStats(section);
       wordPanelTitle.textContent = `${section.title}: ${stats.known}/${stats.total} known`;
+      quizNeedsBtn.disabled = stats.unknown === 0;
       wordList.innerHTML = "";
 
       section.entries.forEach(entry => {
@@ -1830,6 +1868,7 @@
       renderDashboard();
       renderWordList(index);
       updateCurrentWordStatus();
+      validateSessionLength();
     }
 
     function markCurrentWord(status) {
@@ -1859,8 +1898,25 @@
 
     function getQuizEntriesForScope() {
       const index = getSelectedScopeIndex();
-      if (index === null) return entries;
-      return sections[index] ? sections[index].entries : entries;
+      const pool = index === null
+        ? entries
+        : sections[index] ? sections[index].entries : entries;
+      if (!needsOnly.checked) return pool;
+      return pool.filter(entry => getWordStatus(entry) === "unknown");
+    }
+
+    function getScopeLabel() {
+      const sectionLabel = quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`;
+      return needsOnly.checked ? `${sectionLabel}, needs work only` : sectionLabel;
+    }
+
+    function clampSessionLengthToScope() {
+      const scopedEntries = getQuizEntriesForScope();
+      if (!scopedEntries.length) return;
+      const current = Number(mcqCount.value);
+      if (!Number.isInteger(current) || current < 1 || current > scopedEntries.length) {
+        mcqCount.value = String(Math.min(25, scopedEntries.length));
+      }
     }
 
     function parseCSV(text) {
@@ -2397,7 +2453,9 @@
 
       if (!scopedEntries.length) {
         startBtn.disabled = true;
-        sessionNote.textContent = "Choose a section with words before starting.";
+        sessionNote.textContent = needsOnly.checked
+          ? `No words are marked needs work in ${quizScope.value === "all" ? "this range" : `Section ${Number(quizScope.value) + 1}`}.`
+          : "Choose a section with words before starting.";
         return false;
       }
 
@@ -2413,14 +2471,14 @@
         return false;
       }
 
-      if (scopedEntries.length < NUM_OPTIONS) {
+      if (entries.length < NUM_OPTIONS) {
         startBtn.disabled = true;
         sessionNote.textContent = `Multiple choice needs at least ${NUM_OPTIONS} usable words.`;
         return false;
       }
 
       startBtn.disabled = false;
-      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique multiple-choice word${sessionValue === 1 ? "" : "s"} from ${quizScope.value === "all" ? "all sections" : `Section ${Number(quizScope.value) + 1}`}.`;
+      sessionNote.textContent = `Session: ${sessionValue.toLocaleString()} unique multiple-choice word${sessionValue === 1 ? "" : "s"} from ${getScopeLabel()}.`;
       return true;
     }
 
